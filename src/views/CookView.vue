@@ -1,15 +1,12 @@
 <script setup>
-import SideMenu from '../components/SideMenu.vue';
+import SideMenu from '@/components/SideMenu.vue';
+import ChatLayout from '@/components/ChatLayout.vue';
 
 </script>
 <template>
 <div class="cook-view">
     <SideMenu />
-    <section>
-        <span class="material-symbols-outlined menu-icon">
-            list
-            </span>
-    </section>
+    <ChatLayout/>
 </div>
 </template>
 <style scoped>
@@ -17,5 +14,6 @@ import SideMenu from '../components/SideMenu.vue';
     display: flex;
     flex-flow: row;
     align-items: center;
+    justify-content: flex-start;
 }
 </style>

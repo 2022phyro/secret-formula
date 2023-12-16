@@ -1,29 +1,25 @@
 <script setup>
+import { ref } from 'vue';
+const menu = ref(false);
 const toggleMenu = () => {
-    document.querySelector('.side-menu').classList.toggle('show');
-    document.querySelector('.s-m-header').classList.toggle('show');
-    const tg = document.querySelector('.menu-icon');
-    if (tg.innerHTML === 'menu_open') {
-        tg.innerHTML = 'list';
-    } else {
-        tg.innerHTML = 'menu_open';
-    }
-
+    menu.value = !menu.value;
 }
 </script>
 <template>
-    <div class="side-menu">
-        <div class="s-m-header">
-            <div class="new-thread">
-                <span class="material-symbols-outlined">
-                    stylus_note
-                </span>
-                New Pot!😏
-            </div>
-            <span class="material-symbols-outlined menu-icon" @click="toggleMenu">
-                menu_open
+    <div :class="['s-m-header', menu? 'show' : '']">
+        <div class="new-thread">
+            <span class="material-symbols-outlined">
+                stylus_note
             </span>
+            New Pot!😏
         </div>
+        <span class="material-symbols-outlined menu-icon" @click="toggleMenu">
+            {{ menu? 'menu_open': 'list'}}
+        </span>
+    </div>
+    <div :class="['side-menu', menu? 'show' : '']">
+            <!--Implement infinte scrolling, also the list will have it's own component for rendering
+            the threads and deleting them-->
         <ul class="threads">
             <li> How to make extremely annoying egusi soup</li>
             <li> How to make extremely annoying egusi soup</li>
@@ -46,16 +42,18 @@ const toggleMenu = () => {
 .side-menu {
     height: calc(100vh - 70px);
     width: 280px;
-    position: relative;
+    position: fixed;
     background-color: #e99e3d80;
+    backdrop-filter: blur(5px);
     display: flex;
     left: -280px;
     flex-flow: column;
     align-items: center;
     padding: 0 10px;
     overflow: auto;
+    z-index: 1000;
     /*border: 1px solid red;*/
-    transition: left 0.5s ease-in-out;
+    transition: left 0.4s ease-in-out;
 }
 .s-m-header {
     position: fixed;
@@ -73,10 +71,14 @@ const toggleMenu = () => {
     align-items: center;
     justify-content: space-between;
     z-index: 1;
-    transition: left 0.5s ease-in-out, width 0.5s ease-in-out;
+    transition: left 0.4s ease-in-out, width 0.4s ease-in-out;
 }
 .side-menu.show, .s-m-header.show {
     left: 0;
+    z-index: 1000;
+}
+.s-m-header.show  {
+    z-index: 1001;
 }
 .s-m-header .new-thread {
     display: flex;
@@ -127,13 +129,26 @@ button.s-m-footer:hover {
 }
 button.s-m-footer:active {
     box-shadow: 0px 0px 0px 0px;
-    top: 5px;
-    left: 5px;
+    bottom: 26px;
+    margin-bottom: 26px;
+    top: auto;
+    background: #e99e3d;
+    color: white;
+    left: 16px;
 }
 @media screen and (min-width: 769px) {
     .s-m-header {
-        width: 280px;
         justify-content: center;
+        left: 0;
+        width: 280px;
+        z-index: 1;
+    }
+    .side-menu {
+        left: 0;
+        position: relative;
+        width: 280px;
+        z-index: 0;
+
     }
 }
 </style>
