@@ -1,0 +1,45 @@
+@import './base.css';
+button {
+    padding: 0.25em 0.5em;
+    width: auto;
+    height: 40px;
+    border-radius: 15px;
+    border: none;
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    text-decoration: none;
+    text-transform: capitalize;
+    background: white;
+    color: #e99e3d;
+    cursor: pointer;
+    border: 2px solid #e99e3d;
+    padding: 0.25em 0.75em;
+    box-shadow: 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 3px 3px 0px 0px #e99e3d;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    transition: top ease 0.5s, left ease 0.5s;
+}
+button:hover {
+    background: #e99e3d;
+    color: white;
+    box-shadow: 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 3px 3px 0px 0px #e99e3d;
+
+
+}
+button:active {
+    box-shadow: 0px 0px 0px 0px;
+    top: 5px;
+    left: 5px;
+  }
+  a, .a {
+    font-weight: 500;
+    font-size: 18px;
+    color: #e99e3d;
+  }
+  a:hover, .a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
