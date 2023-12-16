@@ -43,3 +43,26 @@ button:active {
     text-decoration: underline;
     cursor: pointer;
   }
+
+  .material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+  }
+ 
+.menu-icon {
+  font-size: 30px;
+  display: none;
+  cursor: pointer;
+
+}
+.menu-icon:hover {
+  color: #fa8f03;
+}
+  @media screen and (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
+}

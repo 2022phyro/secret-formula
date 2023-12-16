@@ -1,3 +1,21 @@
+<script setup>
+import SideMenu from '../components/SideMenu.vue';
+
+</script>
 <template>
-    <h2>Hello Africa</h2>
+<div class="cook-view">
+    <SideMenu />
+    <section>
+        <span class="material-symbols-outlined menu-icon">
+            list
+            </span>
+    </section>
+</div>
 </template>
+<style scoped>
+.cook-view {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+}
+</style>
