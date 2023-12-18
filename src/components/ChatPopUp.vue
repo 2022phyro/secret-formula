@@ -19,15 +19,18 @@ const dsn = computed(() =>{
 const close = () => {
     emit('closePopUp');
 }
-const closeAndCallback = () => {
+const closeAndCallback = async () => {
     isLoading.value = true;
-    if (props.callback) {
-        props.callback(...props.args);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+        if (props.callback) {
+            props.callback(...props.args);
+        }
+    } finally {
+      isLoading.value = false;
+      emit('closePopUp');
+
     }
-    setTimeout(() => {
-        emit('closePopUp');
-    }, 2000);
-    isLoading.value = false;
 }
 const allMessages = {
     logout: "Are you sure you want to logout",
