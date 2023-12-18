@@ -83,6 +83,7 @@ form {
     align-items: center;
     width: 100%;
     border: 1px solid #ee9e3d;
+    background-color: white; 
     border-radius: 12px;
     padding: 5px 13px;
     gap: 10px;

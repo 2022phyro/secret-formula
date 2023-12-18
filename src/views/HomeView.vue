@@ -94,7 +94,10 @@ main {
 }
 .content {
   width: 50%;
+  height: calc(100vh -70px);
   display: flex;
+  background-size: 100px;
+  background-repeat: repeat;
   flex-flow: column wrap;
   gap: 20px;
 }
@@ -142,6 +145,8 @@ main {
   }
   .content {
     width: auto;
+    /*background-image: url(background.jpg);*/
+    background-size: 100%;
   }
 }
 .pop-up {

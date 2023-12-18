@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import ButtonLoader from './ButtonLoader.vue';
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   current: String,
@@ -17,8 +18,8 @@ const password = ref('');
 const errorEmail = ref('');
 const errorPwd = ref('');
 const errorSubmit = ref('An error occured. Please try again later');
-
-const validateForm = () => {
+const isLoading = ref(false);
+const validateForm = async () => {
   let isValid = true;
 
   // Simple validation for email
@@ -45,9 +46,17 @@ const validateForm = () => {
   }
 
   if (isValid) {
-    console.log({ email: email.value, password: password.value });
-    router.push('/cook/')
+    isLoading.value = true;
+    try {
+      // Simulate a request
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      console.log({ email: email.value, password: password.value });
+      router.push('/cook/');
+    } finally {
+      isLoading.value = false;
+    }
   }
+
 };
 </script>
 
@@ -63,7 +72,10 @@ const validateForm = () => {
         <input type="password" id="password" placeholder="Enter your password" v-model="password" />
         <div class="error">{{ errorPwd }}</div>  
       </label>
-      <button type="submit">Sign Up</button>
+      <button type="submit" :disabled="isLoading">
+        <ButtonLoader v-if="isLoading"/>
+        <span v-else>Sign Up</span>
+      </button>     
       <div class="error">{{ errorSubmit }}</div>
       <p>Already have an account <span class="a" @click="toLogin">Click here!</span></p>
     </form>

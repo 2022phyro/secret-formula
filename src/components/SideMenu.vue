@@ -1,15 +1,32 @@
 <script setup>
 import { ref } from 'vue';
 const menu = ref(false);
+const active=ref(3);
+const emit = defineEmits(['openPopup', 'changeThread'])
+
+const selectThread = (id) => {
+    active.value = id;
+    emit('changeThread', id);
+}
+const logout = () => {
+    emit('openPopup', 'logout');
+}
+const deleteA = () => {
+    emit('openPopup', 'delete');
+}
+const newThread = () => {
+    emit('openPopup', 'new thread')
+}
 const toggleMenu = () => {
     menu.value = !menu.value;
 }
 </script>
 <template>
     <div :class="['s-m-header', menu? 'show' : '']">
-        <div class="new-thread">
+        <div class="new-thread"
+        @click="newThread">
             <span class="material-symbols-outlined">
-                stylus_note
+                shadow_add
             </span>
             New Pot!😏
         </div>
@@ -21,19 +38,23 @@ const toggleMenu = () => {
             <!--Implement infinte scrolling, also the list will have it's own component for rendering
             the threads and deleting them-->
         <ul class="threads">
-            <li> How to make extremely annoying egusi soup</li>
-            <li> How to make extremely annoying egusi soup</li>
-            <li> How to make extremely annoying egusi soup</li>
-            <li> How to make extremely annoying egusi soup</li>
-            <li> How to make extremely annoying egusi soup</li>
-            <li> How to make extremely annoying egusi soup</li>
-            <li> How to make extremely annoying egusi soup</li>
+            <li v-for="i in 10" :key='i' :class="['thread', i == active? 'active' : '']"
+            @click="selectThread(i)">
+                How to make extremely annoying egusi soup</li>
         </ul>
-        <button class="s-m-footer">
+        <button class="s-m-footer"
+        @click="logout">
             <span class="material-symbols-outlined">
                 logout
             </span>
             Log out
+        </button>
+        <button class="s-m-footer da"
+        @click="deleteA">
+            <span class="material-symbols-outlined">
+                delete
+            </span>
+            Delete Account
         </button>
     </div>
 </template>
@@ -58,8 +79,8 @@ const toggleMenu = () => {
 .s-m-header {
     position: fixed;
     height: 45px;
-    border-radius: 8px;
-    top: 55px;
+    border-bottom-right-radius: 8px;
+    top: 60px;
     left: -275px;
     width: 320px;
     padding: 0 10px;
@@ -100,11 +121,24 @@ const toggleMenu = () => {
     /*border: 1px solid blue;*/
     overflow: auto;
     padding: 0;
-    gap: 8px;
 }
 .threads li {
     list-style: none;
     border-bottom: 1px solid rgba(0,0,0,0.2);
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 4px 0;
+    cursor: pointer;
+    font-weight: 300;
+    text-overflow: ellipsis;
+}
+.threads li:hover {
+    background-color: #f3c486;
+}
+.threads li.active {
+    font-weight: 600;
+    border-bottom: 3px solid rgba(0,0,0,0.2);
+
 }
 .s-m-footer {
     display: flex;
@@ -115,30 +149,36 @@ const toggleMenu = () => {
     position: absolute;
     bottom: 30px;
     gap: 5px;
-    background-color: transparent;
+    background-color: white;
     margin-bottom: 30px;
     border-radius: 10px;
     line-height: 2;
     font-size: 18px;
-    color: black;
+    font-weight: 700;
+    color: #e99e3d;
 }
-button.s-m-footer:hover {
-    background: #e99e3d;
-    color: white;
-    box-shadow: 1px 1px 0px 0px, #e99e3d 1px 1px 0px 0px, #e99e3d 1px 1px 0px 0px, #e99e3d 1px 1px 0px 0px,  #e99e3d 3px 3px 0px 0px #e99e3d;
+.da {
+    bottom: 0;
+    margin-bottom: 10px;
 }
+
 button.s-m-footer:active {
     box-shadow: 0px 0px 0px 0px;
     bottom: 26px;
     margin-bottom: 26px;
     top: auto;
-    background: #e99e3d;
-    color: white;
+    left: 16px;
+}
+button.da:active {
+    box-shadow: 0px 0px 0px 0px;
+    bottom: 6px;
+    margin-bottom: 6px;
+    top: auto;
     left: 16px;
 }
 @media screen and (min-width: 769px) {
     .s-m-header {
-        justify-content: center;
+        justify-content: flex-start;
         left: 0;
         width: 280px;
         z-index: 1;

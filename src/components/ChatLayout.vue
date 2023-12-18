@@ -1,17 +1,31 @@
 <script setup>
-import MyIcon from './MyIcon.vue';
+// import MyIcon from './MyIcon.vue';
 import ChatInput from './ChatInput.vue';
+import ChatControl from './ChatControl.vue';
 </script>
 <template>
     <section class="chat-layer">
-        <div class="layout-header">
-            <h2>How to cook annoying egusi from scratch</h2>
-            <MyIcon name="delete"/>
-            <MyIcon name="edit_square"/>
-        </div>
         <!--Implement infinte scrolling, also the list will have it's own component for rendering
         my messages and the ai's replies-->
-        <ul>
+        <ChatControl/>
+        <ul class="chat-body">
+            <li>chat items</li>
+            <li>chat items</li>
+            <li>chat items</li>
+            <li>chat items</li>
+            <li>chat items</li>
+            <li>chat items</li>
+            <li>chat items</li>
+            <li>chat items</li>
+            <li>chat items</li>
+            <li>chat items</li>
+            <li>chat items</li>
+            <li>chat items</li>
+            <li>chat items</li>
+            <li>chat items</li>
+            <li>chat items</li>
+            <li>chat items</li>
+            <li>chat items</li>
             <li>chat items</li>
         </ul>
         <ChatInput/>
@@ -22,13 +36,18 @@ import ChatInput from './ChatInput.vue';
     height: calc(100vh - 70px);
     width: calc(100vw - 280px);
     border: 1px solid red;
-    display: flex;
+    display: flex; 
     flex-flow: column;
     align-items: center;
-    padding: 30px;
+    padding: 0 30px 30px  30px ;
+    overflow: auto; 
 }
-.layout-header {
-}
+    .chat-body {
+	    height: auto;
+	    padding-bottom: 90px;  
+	    width: 90%; 
+	    border: 1px solid green;
+    }
 @media screen and (max-width: 768px) {
     .chat-layer {
         width: 100%;
