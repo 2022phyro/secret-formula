@@ -1,17 +1,33 @@
 <script setup>
 import { ref, computed } from 'vue';
+import ButtonLoader from './ButtonLoader.vue';
+const isLoading = ref(false);
 const emit = defineEmits(['closePopUp'])
 
 const props = defineProps({
     visible: Boolean,
     type: String,
-    decison: Boolean,
-    callback: Function
+    decision: Boolean,
+    callback: Function,
+    args: Array
 })
 const visile = computed(() => props.visible);
-const dsn = computed(() => props.decison);
+const dsn = computed(() =>{
+    console.log("ds", props.decision)
+    return props.decision;
+});
 const close = () => {
     emit('closePopUp');
+}
+const closeAndCallback = () => {
+    isLoading.value = true;
+    if (props.callback) {
+        props.callback(...props.args);
+    }
+    setTimeout(() => {
+        emit('closePopUp');
+    }, 2000);
+    isLoading.value = false;
 }
 const allMessages = {
     logout: "Are you sure you want to logout",
@@ -24,12 +40,17 @@ const allMessages = {
 <template>
     <div class="parent" v-if="visile">
         <div class="content">
-            <span class="close" @click="close">&times</span>
+            <span class="close" @click="close">&times;</span>
             <p>{{ allMessages[props.type] }}</p>
-            <div class="buttons" v-if="dsn == false">
-                <button @click="close" >Cancel</button>
-                <button @click="close">Logout</button>
+            <div class="buttons" v-if="dsn">
+                <button @click="close">
+                    Cancel</button>
+                <button @click="closeAndCallback">
+                    <ButtonLoader v-if="isLoading"/>
+                    <span v-else>Logout</span>
+                </button>
             </div>
+            <input v-else>
         </div>
     </div>
 </template>
@@ -39,7 +60,7 @@ const allMessages = {
     height: 100vh;
     width: 100vw;
     top: 0;
-    z-index: 100;
+    z-index: 10000;
     background: rgb(255, 255, 255, 0.5);
     backdrop-filter: blur(5px);
     display: flex;
@@ -49,7 +70,9 @@ const allMessages = {
 .content {
     position: relative;
     background: white;
-    width: 270px;
+    min-width: 270px;
+    max-width: 340px;
+    margin: 0 10px;
     padding: 20px;
     padding-top: 40px;
     border-radius: 10px;
@@ -72,6 +95,19 @@ const allMessages = {
   
   }
   .close:hover, .close:active {
-    color: red;
+  color: red;
+  }
+  input {
+    width: 100%;
+    height: 35px;
+    font-family: 'Space Grotesk';
+    border-radius: 12px;
+    padding: 0 5px;
+    outline: none;
+    border: 1px solid #ccc;
+  }
+  input:focus {
+
+    border: 1px solid #e99e3d;
   }
 </style>

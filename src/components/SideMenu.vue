@@ -12,10 +12,10 @@ const logout = () => {
     emit('openPopup', 'logout');
 }
 const deleteA = () => {
-    emit('openPopup', 'delete');
+    emit('openPopup', 'deleteAcc');
 }
 const newThread = () => {
-    emit('openPopup', 'new thread')
+    emit('openPopup', 'newThread')
 }
 const toggleMenu = () => {
     menu.value = !menu.value;
@@ -38,7 +38,7 @@ const toggleMenu = () => {
             <!--Implement infinte scrolling, also the list will have it's own component for rendering
             the threads and deleting them-->
         <ul class="threads">
-            <li v-for="i in 10" :key='i' :class="['thread', i == active? 'active' : '']"
+            <li v-for="i in 20" :key='i' :class="['thread', i == active? 'active' : '']"
             @click="selectThread(i)">
                 How to make extremely annoying egusi soup</li>
         </ul>
@@ -126,6 +126,9 @@ const toggleMenu = () => {
     list-style: none;
     border-bottom: 1px solid rgba(0,0,0,0.2);
     white-space: nowrap;
+    height: 30px;
+    flex-basis: 30px;
+    flex-shrink: 0;
     overflow: hidden;
     padding: 4px 0;
     cursor: pointer;
@@ -138,6 +141,11 @@ const toggleMenu = () => {
 .threads li.active {
     font-weight: 600;
     border-bottom: 3px solid rgba(0,0,0,0.2);
+    position: sticky;
+    background-color: #f3c486;
+
+    top: 0;
+    bottom: 0;
 
 }
 .s-m-footer {

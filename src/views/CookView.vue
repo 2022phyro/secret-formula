@@ -7,10 +7,25 @@ const visible = ref(false);
 const pType = ref('');
 const pDecision = ref(false);
 const popUp = (name ) => {
-    if (name == 'logout') {
-        pDecision.value = true;
-        visible.value = true;
-        pType.value = 'logout';
+    switch (name) {
+        case 'logout': {
+            pDecision.value = true;
+            visible.value = true;
+            pType.value = 'logout';
+            break;
+        }
+        case 'deleteAcc': {
+            pDecision.value = true;
+            visible.value = true;
+            pType.value = 'deleteAcc';
+            break;
+        }
+        case 'newThread': {
+            pDecision.value = false;
+            visible.value = true;
+            pType.value = 'newThr';
+            break;
+        }
     }
 }
 const cPopUp = () => {
