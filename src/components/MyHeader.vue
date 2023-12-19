@@ -1,27 +1,32 @@
-<script setup>
-</script>
+<script setup></script>
 <template>
-    <header>
-        <img src="/logo.png" alt="The secret Formular" />
-    </header>
+  <header>
+    <!-- <img src="/logo.png" alt="The secret Formular" class="logo" /> -->
+    <h1>Secret Formula 1.0</h1>
+  </header>
 </template>
 <style scoped>
 header {
-    height: 60px;
-    width: 100%;
-    background-color: transparent;
-    backdrop-filter: blur(3px);
-    position: fixed;
-    top: 0;
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    padding: 0 30px;
+  height: 60px;
+  width: 100%;
+  background-color: #f5cf9d;
+  backdrop-filter: blur(3px);
+  position: fixed;
+  top: 0;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  padding: 0 40px;
 }
-
-header img {
-    margin-top: 10px;
-    width: 50px;
+h1 {
+  /* font-family: "Space Grotesk"; */
+  font-weight: 600;
+  font-size: 20px;
+  margin: auto;
+}
+@media screen and (max-width: 768px) {
+  header {
     height: 50px;
+  }
 }
 </style>

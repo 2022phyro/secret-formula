@@ -1,202 +1,251 @@
 <script setup>
-import { ref } from 'vue';
-const menu = ref(false);
-const active=ref(10);
+import MyIcon from './MyIcon.vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+const menu = ref(false)
+const active = ref(10)
 const emit = defineEmits(['openPopup', 'changeThread'])
 
+const fabOpen = ref(false);
+
+const closeFab = () => {
+  fabOpen.value = false;
+};
+
+onMounted(() => {
+  window.addEventListener('click', closeFab);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('click', closeFab);
+});
+
 const selectThread = (id) => {
-    active.value = id;
-    emit('changeThread', id);
+    active.value = id
+    emit('changeThread', id)
 }
 const logout = () => {
-    emit('openPopup', 'logout');
+    emit('openPopup', 'logout')
 }
 const deleteA = () => {
-    emit('openPopup', 'deleteAcc');
-}
-const newThread = () => {
-    emit('openPopup', 'newThread')
+    emit('openPopup', 'deleteAcc')
 }
 const toggleMenu = () => {
-    menu.value = !menu.value;
+    menu.value = !menu.value
 }
 </script>
 <template>
-    <div :class="['s-m-header', menu? 'show' : '']">
-        <div class="new-thread"
-        @click="newThread">
-            <span class="material-symbols-outlined">
-                shadow_add
-            </span>
-            New Pot!😏
+    <div :class="['side-menu', menu ? 'show' : '']">
+        <div :class="['s-m-header', menu ? 'show' : '']">
+            <img class="logo" src="/logo.png" alt="logo" />
+            <MyIcon @click="toggleMenu" :name="menu ? 'menu_open' : 'list'" class='menu-icon' />
         </div>
-        <span class="material-symbols-outlined menu-icon" @click="toggleMenu">
-            {{ menu? 'menu_open': 'list'}}
-        </span>
-    </div>
-    <div :class="['side-menu', menu? 'show' : '']">
-            <!--Implement infinte scrolling, also the list will have it's own component for rendering
-            the threads and deleting them-->
+        <!--Implement infinte scrolling, also the list will have it's own component for rendering
+        the threads and deleting them-->
         <ul class="threads">
-            <li v-for="i in 20" :key='i' :class="['thread', i == active? 'active' : '']"
-            @click="selectThread(i)">
-                How to make extremely annoying egusi soup</li>
+            <li v-for="i in 20" :key="i" :class="['thread', i == active ? 'active' : '']" @click="selectThread(i)">
+                How to make extremely annoying egusi soup
+            </li>
         </ul>
-        <button class="s-m-footer btn"
-        @click="logout">
-            <span class="material-symbols-outlined">
-                logout
-            </span>
-            Log out
-        </button>
-        <button class="s-m-footer da btn"
-        @click="deleteA">
-            <span class="material-symbols-outlined">
-                delete
-            </span>
-            Delete Account
-        </button>
+        <div class="settings">
+            <div :class="['opener', fabOpen? 'active' : '']" @click.stop="fabOpen = !fabOpen">
+            <MyIcon name="settings" />
+            Settings
+            </div>
+            <ul v-show="fabOpen" @click.stop>
+                <li @click="logout">
+                    <MyIcon name="logout" />Log out
+                </li>
+                <li @click="deleteA">
+                    <MyIcon name="delete" />Delete Account
+                </li>
+            </ul>
+        </div>
     </div>
+    <div :class="['close-menu', menu ? 'show' : '']" @click="toggleMenu"></div>
 </template>
 
 <style scoped>
-.side-menu {
-    height: calc(100vh - 70px);
-    width: 280px;
+.close-menu {
     position: fixed;
-    background-color: #e99e3d80;
-    backdrop-filter: blur(5px);
-    display: flex;
+    top: 0;
+    right: 100vw;
+    width: calc(100vw - 280px);
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(3px);
+    align-self: stretch;
+    transition: right 0.4s ease-in-out;
+}
+
+.side-menu {
+    position: fixed;
+    height: 100%;
+    top: 0px;
+    width: 280px;
     left: -280px;
+    background-color: #f5cf9d;
+    padding: 0;
+    display: flex;
     flex-flow: column;
-    align-items: center;
-    padding: 0 10px;
-    overflow: auto;
-    z-index: 1000;
-    /*border: 1px solid red;*/
+    justify-content: flex-start;
+    align-content: flex-start;
+    overflow-x: visible;
     transition: left 0.4s ease-in-out;
 }
+
 .s-m-header {
-    position: fixed;
-    height: 45px;
+    height: 50px;
     border-bottom-right-radius: 8px;
-    top: 60px;
-    left: -275px;
-    width: 320px;
-    padding: 0 10px;
-    background-color: #f5cf9d;
-    margin-top: 10px;
-    font-size: 20px;
+    border-top-right-radius: 8px;
+    position: fixed;
+    left: -280px;
+    padding-left: 10px;
+    top: auto;
+    width: 330px;
     display: flex;
-    flex-flow: row;
-    align-items: center;
     justify-content: space-between;
-    z-index: 1;
-    transition: left 0.4s ease-in-out, width 0.4s ease-in-out;
+    background-color: transparent;
+    align-items: center;
+    /* border: 1px solid red; */
+    transition:
+        left 0.4s ease-in-out,
+        width 0.4s ease-in-out;
 }
-.side-menu.show, .s-m-header.show {
+
+.add {
+    position: absolute;
+    right: 10px;
+}
+
+.side-menu.show,
+.s-m-header.show {
     left: 0;
     z-index: 1000;
 }
-.s-m-header.show  {
+
+.close-menu.show {
+    right: 0;
+    left: auto;
+    z-index: 999;
+}
+
+.s-m-header.show {
     z-index: 1001;
 }
-.s-m-header .new-thread {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    border: 1px solid #e99e3d;
-    cursor: pointer;
 
-}
 .threads {
     list-style-type: none;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
-    margin-top: 45px;
+    margin-top: 55px;
     width: 100%;
-    height: calc(100% - 170px);
-    /*border: 1px solid blue;*/
+    height: calc(100% - 200px);
+    /* border: 1px solid blue; */
     overflow: auto;
     padding: 0;
+
+
+    -ms-overflow-style: none;
 }
+
+.threads::-webkit-scrollbar {
+    display: none;
+}
+
 .threads li {
     list-style: none;
-    border-bottom: 1px solid rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     white-space: nowrap;
-    height: 30px;
-    flex-basis: 30px;
     flex-shrink: 0;
     overflow: hidden;
-    padding: 4px 0;
+    padding: 10px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
     cursor: pointer;
     font-weight: 300;
     text-overflow: ellipsis;
 }
-.threads li:hover {
+
+.threads li:hover, .opener:hover{
     background-color: #f3c486;
 }
-.threads li.active {
+
+.threads li.active  {
     font-weight: 600;
-    border-bottom: 3px solid rgba(0,0,0,0.2);
+    border-bottom: 3px solid rgba(0, 0, 0, 0.2);
     position: sticky;
     background-color: #f3c486;
-
     top: 0;
     bottom: 0;
+}
+.opener.active {
+    background-color: #f3c486;
+    border-bottom: 3px solid rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+    border-radius: 8px;
 
 }
-.s-m-footer {
+.settings {
+}
+.opener {
+    padding: 5px 10px;
+    line-height: 1;
+    display: flex;
+    flex-flow: row;
+    font-size: 14px;
+    gap: 5px;
+    align-items: center;
+    vertical-align: center;
+    cursor: pointer;
+}
+.settings ul {
+    list-style-type: none;
+    border: 1px solid #e99e3d;
+    border-top: none;
+    border-radius: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: 0;
+    margin-left: 40px;
+    margin-right: 7px;
+}
+.settings ul li {
+    width: 100%;
     display: flex;
     flex-flow: row;
     align-items: center;
-    justify-content: flex-start;
-    width: 90%;
-    position: absolute;
-    bottom: 30px;
+    font-size: 14px;
     gap: 5px;
-    background-color: white;
-    margin-bottom: 30px;
-    border-radius: 10px;
-    line-height: 2;
-    font-size: 18px;
-    font-weight: 700;
-    color: #e99e3d;
+    margin: 0;
+    padding: 7px 10px;
+    cursor: pointer;
+    font-weight: 300;
 }
-.da {
-    bottom: 0;
-    margin-bottom: 10px;
+.settings ul li:hover {
+ border-radius: 8px;
+ background: #e99e3d;
 }
 
-button.s-m-footer:active {
-    box-shadow: 0px 0px 0px 0px;
-    bottom: 26px;
-    margin-bottom: 26px;
-    top: auto;
-    left: 16px;
-}
-button.da:active {
-    box-shadow: 0px 0px 0px 0px;
-    bottom: 6px;
-    margin-bottom: 6px;
-    top: auto;
-    left: 16px;
-}
 @media screen and (min-width: 769px) {
     .s-m-header {
+        height: 60px;
+        background-color: #f5cf9d;
         justify-content: flex-start;
         left: 0;
         width: 280px;
         z-index: 1;
     }
+
     .side-menu {
         left: 0;
         position: relative;
         width: 280px;
+        height: 100vh;
         z-index: 0;
-
     }
-}
-</style>
+
+    .close-menu {
+        display: none;
+    }
+}</style>

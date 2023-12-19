@@ -1,55 +1,63 @@
 <script setup>
-import { ref } from 'vue';
-import Login from '../components/Login.vue';
-import Signup from '../components/Signup.vue';
+import { ref } from 'vue'
+import Login from '../components/Login.vue'
+import Signup from '../components/Signup.vue'
 
 const current = ref('')
 const login = () => {
-  const popUp = document.querySelector('.pop-up');
-  popUp.style.display = 'flex';
-  current.value = 'login';
+  const popUp = document.querySelector('.pop-up')
+  popUp.style.display = 'flex'
+  current.value = 'login'
 }
 const signup = () => {
-  const popUp = document.querySelector('.pop-up');
-  popUp.style.display = 'flex';
-  current.value = 'signup';
+  const popUp = document.querySelector('.pop-up')
+  popUp.style.display = 'flex'
+  current.value = 'signup'
 }
 const close = () => {
-  const popUp = document.querySelector('.pop-up');
-  popUp.style.display = 'none';
-  current.value = '';
+  const popUp = document.querySelector('.pop-up')
+  popUp.style.display = 'none'
+  current.value = ''
 }
 </script>
 
 <template>
+  <header class='header'>
+    <img src="/logo.png" alt="logo"  class="logo">
+    <h1> Secret Formula</h1>
+  </header>
   <main>
     <div class="auth">
-      <h1>
-        Finally Plankton!
-      </h1>
+      <h1>Finally Plankton!</h1>
       <p>
-        Are you tired of old Eugeeene Krabs rubbing his stupid secret formula in
-        your face? Do you want Big Chef to finally listen to you when you say you can
-        make a panini with rice, cheese, and a little bit of love? Well, you're
-        here with the Secret Formular, we'll decode whatever it is that you want
-        from those nitty little veggies and bacon. Giving you your own assistant to
-        cook up stunning recipes that can't go wrong no matter whatever you do
+        Are you tired of old Eugeeene Krabs rubbing his stupid secret formula in your face? Do you
+        want Big Chef to finally listen to you when you say you can make a panini with rice, cheese,
+        and a little bit of love? Well, you're here with the Secret Formular, we'll decode whatever
+        it is that you want from those nitty little veggies and bacon. Giving you your own assistant
+        to cook up stunning recipes that can't go wrong no matter whatever you do
       </p>
       <button class="btn" role="button" @click="signup">Get Started</button>
       <!-- <button class="btn" role="button" @click="signup">Sign Up</button> -->
     </div>
     <div class="content">
-      <img src="/background.png" alt="background">
+      <img src="/background.png" alt="background" />
     </div>
     <div class="pop-up">
-      <div class='pop-up-content'>
+      <div class="pop-up-content">
         <span class="close" @click="close">&times;</span>
-        <component :is="current === 'login' ? Login : Signup" :current="current" @update:current="current = $event" />
+        <component
+          :is="current === 'login' ? Login : Signup"
+          :current="current"
+          @update:current="current = $event"
+        />
       </div>
     </div>
   </main>
 </template>
 <style scoped>
+header.header {
+  background: transparent;
+}
 main {
   display: flex;
   height: 100vh;
@@ -76,7 +84,7 @@ main {
 }
 
 .auth h1 {
-  font-family: "Space Grotesk";
+  font-family: 'Space Grotesk';
 }
 
 .auth button {
@@ -84,7 +92,7 @@ main {
   height: 60px;
   font-weight: 600;
   align-self: center;
-  font-family: "Space Grotesk";
+  font-family: 'Space Grotesk';
 }
 
 .content {
@@ -112,8 +120,7 @@ main {
   border-radius: 50%;
 }
 
-@media screen and (min-height: 315px) and (max-height: 450px) and (min-width : 769px) {
-
+@media screen and (min-height: 315px) and (max-height: 450px) and (min-width: 769px) {
   .auth {
     width: 90%;
     padding: 50px 0;
@@ -199,10 +206,10 @@ main {
   font-weight: 800;
   cursor: pointer;
   color: #e99e3d;
-
 }
 
 .close:hover,
 .close:active {
   color: red;
-}</style>
+}
+</style>

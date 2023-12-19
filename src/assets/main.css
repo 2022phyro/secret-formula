@@ -67,16 +67,21 @@ a:hover,
 }
 
 .menu-icon {
-  font-size: 30px;
+  font-size: 32px;
   display: none;
   cursor: pointer;
 }
-.menu-icon:hover {
-  color: #fa8f03;
+.logo {
+  width: 40px;
+  height: 40px;
 }
 @media screen and (max-width: 768px) {
   .menu-icon {
     display: block;
+  }
+  .logo {
+    width: 30px;
+    height: 30px;
   }
 }
 
@@ -109,4 +114,27 @@ a:hover,
 .close:hover,
 .close:active {
   color: red;
+}
+.header {
+  height: 60px;
+  width: 100%;
+  background-color: #f5cf9d;
+  backdrop-filter: blur(3px);
+  position: fixed;
+  top: 0;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  padding: 0 40px;
+}
+h1 {
+  /* font-family: "Space Grotesk"; */
+  font-weight: 600;
+  font-size: 20px;
+  margin: auto;
+}
+@media screen and (max-width: 768px) {
+  .header {
+    height: 50px;
+  }
 }
