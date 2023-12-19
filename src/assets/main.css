@@ -1,9 +1,9 @@
 @import './base.css';
-button {
+.btn {
     padding: 0.25em 0.5em;
     width: auto;
     height: 40px;
-    border-radius: 15px;
+    border-radius: 13px;
     border: none;
     font-size: 14px;
     letter-spacing: 2px;
@@ -13,26 +13,29 @@ button {
     background: white;
     color: #e99e3d;
     cursor: pointer;
-    border: 2px solid #e99e3d;
+    border: 1px solid #e99e3d;
     padding: 0.25em 0.75em;
-    box-shadow: 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 3px 3px 0px 0px #e99e3d;
+    box-shadow: 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 2px 2px 0px 0px #e99e3d;
     position: relative;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
     transition: top ease 0.5s, left ease 0.5s;
 }
-button:hover {
+.btn:hover {
     background: #e99e3d;
     color: white;
-    box-shadow: 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 3px 3px 0px 0px #e99e3d;
+    box-shadow: 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 2px 2px 0px 0px #e99e3d;
 
 
 }
-button:active {
+.btn:active {
     box-shadow: 0px 0px 0px 0px;
-    top: 5px;
-    left: 5px;
+    top: 2px;
+    left: 2px;
+  }
+  .btn span {
+    color: inherit;
   }
   a, .a {
     font-weight: 500;
@@ -65,4 +68,21 @@ button:active {
   .menu-icon {
     display: block;
   }
+}
+
+.form-btn {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  font-size: 24px;
+  line-height: 1;
+  border: none;
+  color:#e99e3d;
+  background: none;
+  outline: none;
+  margin: 0;
+  margin-left: -1.2em;
+}
+.form-btn > span {
+  color: #e99e3d;
 }

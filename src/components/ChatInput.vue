@@ -48,7 +48,7 @@
         rows="5" :ref="textarea">
             <MyIcon name="send_money" />
         </textarea>
-        <button type="submit"><MyIcon name="send_money" /></button>
+        <button type="submit" class="form-btn"><MyIcon name="publish" /></button>
       </form>
       <p v-if="error">{{ error }}</p>
     </div>

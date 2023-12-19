@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 const menu = ref(false);
-const active=ref(3);
+const active=ref(10);
 const emit = defineEmits(['openPopup', 'changeThread'])
 
 const selectThread = (id) => {
@@ -42,14 +42,14 @@ const toggleMenu = () => {
             @click="selectThread(i)">
                 How to make extremely annoying egusi soup</li>
         </ul>
-        <button class="s-m-footer"
+        <button class="s-m-footer btn"
         @click="logout">
             <span class="material-symbols-outlined">
                 logout
             </span>
             Log out
         </button>
-        <button class="s-m-footer da"
+        <button class="s-m-footer da btn"
         @click="deleteA">
             <span class="material-symbols-outlined">
                 delete

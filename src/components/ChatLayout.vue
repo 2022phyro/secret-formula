@@ -7,7 +7,6 @@ import ChatControl from './ChatControl.vue';
     <section class="chat-layer">
         <!--Implement infinte scrolling, also the list will have it's own component for rendering
         my messages and the ai's replies-->
-        <ChatControl/>
         <ul class="chat-body">
             <li>chat items</li>
             <li>chat items</li>

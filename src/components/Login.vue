@@ -73,7 +73,7 @@ const validateForm = async () => {
         <div class="error">{{ errorPwd }}</div>  
       </label>
       <!-- <button type="submit">Login</button> -->
-      <button type="submit" :disabled="isLoading">
+      <button class="btn" type="submit" :disabled="isLoading">
         <ButtonLoader v-if="isLoading" />
         <span v-else>Login</span>
       </button>
@@ -145,7 +145,7 @@ const validateForm = async () => {
     padding: 10px;
     border-radius: 5px;
   }
-
+  
   .error {
     color: red;
     font-size: 13px;

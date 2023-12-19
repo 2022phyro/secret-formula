@@ -72,7 +72,7 @@ const validateForm = async () => {
         <input type="password" id="password" placeholder="Enter your password" v-model="password" />
         <div class="error">{{ errorPwd }}</div>  
       </label>
-      <button type="submit" :disabled="isLoading">
+      <button class="btn" type="submit" :disabled="isLoading">
         <ButtonLoader v-if="isLoading"/>
         <span v-else>Sign Up</span>
       </button>     

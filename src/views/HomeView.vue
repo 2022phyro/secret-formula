@@ -24,8 +24,8 @@ const close = () => {
 <template>
   <main>
     <div class="auth">
-      <button role="button" @click="login">Login</button>
-      <button role="button" @click="signup">Sign Up</button>
+      <button class="btn" role="button" @click="login">Login</button>
+      <button class="btn" role="button" @click="signup">Sign Up</button>
     </div>
     <div class="content">
       <h1>
@@ -52,10 +52,9 @@ const close = () => {
 <style scoped>
 main {
   display: flex;
+  height: calc(100vh - 70px);
   flex-flow: row-reverse;
   align-items: center;
-  padding: 0 30px;
-  flex-basis: 50%;
 }
 .auth {
   display: flex;
@@ -63,41 +62,26 @@ main {
   gap: 50px;
   width: 50%;
   flex-basis: 50%;
+  padding: 0  15px 0 30px;
   align-items: center;
 }
 .auth button {
   width: 150px;
   height: 50px;
-  border-radius: 15px;
-  border: none;
-  font-size: 16px;
-  letter-spacing: 2px;
-  text-decoration: none;
-  text-transform: capitalize;
-  background: white;
-  color: #e99e3d;
-  cursor: pointer;
-  border: 2px solid #e99e3d;
-  padding: 0.25em 0.75em;
-  box-shadow: 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 4px 4px 0px 0px;
-  position: relative;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  transition: top 0.5s ease, left 0.5s ease;
-}
-
-.auth button:active {
-  box-shadow: 0px 0px 0px 0px;
-  top: 5px;
-  left: 5px;
+  font-weight: 600;
+  font-family: "Space Grotesk";
 }
 .content {
   width: 50%;
-  height: calc(100vh -70px);
+  height: inherit;
+  color: white;
   display: flex;
   background-size: 100px;
+  padding: 0 30px 0 15px;
   background-repeat: repeat;
+  background-color: #ee9e3d;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
   flex-flow: column wrap;
   gap: 20px;
 }
@@ -118,35 +102,18 @@ main {
   gap: 20px;
   background: transparent;
   height: 70px;
-
   width: fit-content;
  }
   .auth button {
-    padding: 0.25em 0.5em;
     width: auto;
     height: 40px;
-    border-radius: 15px;
-    border: none;
-    font-size: 14px;
-    letter-spacing: 2px;
-    text-decoration: none;
-    text-transform: capitalize;
-    background: white;
-    color: #e99e3d;
-    cursor: pointer;
-    border: 2px solid #e99e3d;
-    padding: 0.25em 0.75em;
-    box-shadow: 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 3px 3px 0px 0px;
-    position: relative;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    transition: top ease 0.5s, left ease 0.5s;
+
   }
   .content {
     width: auto;
     /*background-image: url(background.jpg);*/
     background-size: 100%;
+    border-radius: 0;
   }
 }
 .pop-up {

@@ -1,7 +1,20 @@
 <script setup>
 import MyIcon from './MyIcon.vue';
 import { ref, computed } from 'vue';
+const emit = defineEmits(['openPopUp'])
+
 const showButtons = ref(false);
+
+const editFAB = () => {
+    showButtons.value = false;
+    emit('openPopUp', 'editThread', "How to make a perfect stew");
+}
+
+const deleteFAB = () => {
+    showButtons.value = false;
+    emit('openPopUp', 'deleteThread');
+}
+
 const style = computed(() => {
     return {width:  showButtons.value? '150px' : '30px',
             height: showButtons.value? '100px' : '30px'}
@@ -12,11 +25,11 @@ const style = computed(() => {
         <MyIcon name="more_vert" @click="showButtons = !showButtons"/>
         <transition name="fade">
             <ul v-if="showButtons">
-                <li>
+                <li @click="editFAB">
                     <MyIcon name='stylus'/>
                     <span>Edit name</span>
                 </li>
-                <li>
+                <li @click="deleteFAB">
                     <MyIcon name='delete'/>
                     <span>Delete</span>
                 </li>
@@ -32,7 +45,6 @@ const style = computed(() => {
     right: 20px;
     display: flex;
     flex-flow: column;
-    cursor: pointer;
     align-items: flex-end;
     transition: width 0.5s ease, height 0.5s ease;
 }
