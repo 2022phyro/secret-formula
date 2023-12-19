@@ -88,6 +88,7 @@ const toggleMenu = () => {
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
+    z-index: 1000;
     align-content: flex-start;
     overflow-x: visible;
     transition: left 0.4s ease-in-out;

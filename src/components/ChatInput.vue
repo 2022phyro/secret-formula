@@ -90,21 +90,30 @@ const handleSubmit = () => {
         <button type="submit" class="form-btn"><MyIcon name="publish" /></button>
       </div>
     </form>
-    <p v-if="error">{{ error }}</p>
+    <!-- <p v-if="error">{{ error }}</p> -->
+    <p class="warn">Once in a while we cook up some trash. Please verify all info provided</p>
   </div>
 </template>
 <style scoped>
 .input-block {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  background-color: #fff;
   justify-content: center;
   max-width: 700px;
   width: 100%;
-  padding: 20px;
+  padding: 0 20px 20px;
   position: fixed;
   bottom: 0px;
   width: calc(100vw - 280px);
+}
+.warn {
+  font-size: 12px;
+  color: #e99e3d;
+  margin-top: 5px;
+  text-align: center;
+  font-weight: 500;
 }
 form {
   display: flex;
