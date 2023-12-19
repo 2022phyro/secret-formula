@@ -1,13 +1,18 @@
  <script setup>
-  import { ref } from 'vue';
+    import { ref } from 'vue';
   import MyIcon from './MyIcon.vue';
   
   const text = ref('');
   const file = ref(null);
   const imageURL = ref('');
+  const upload = ref(true);
   const error = ref('');
   const textarea = ref('');
-  
+  const fileInput = ref(null); // Add this line to create a reference to the file input
+
+  const upload_file = () => {
+    upload.value = !upload.value;
+  };
   const handleFileChange = (e) => {
     file.value = e.target.files[0];
     if (file.value && file.value.type.startsWith('image/')) {
@@ -17,10 +22,10 @@
       imageURL.value = '';
     }
   };
-  const adjustHeight = () => {
-  textarea.value.style.height = 'auto';
-  textarea.value.style.height = textarea.value.scrollHeight + 'px';
-};
+
+  const triggerFilePicker = () => {
+    fileInput.value.click(); // Add this method to trigger the file picker when the image is clicked
+  };
   const handleSubmit = () => {
     if (!text.value && !file.value) {
       error.value = 'Please enter a message or select an image.';
@@ -38,17 +43,22 @@
 </script>
 <template>
     <div class="input-block">
-      <img v-if="imageURL" :src="imageURL">
       <form @submit.prevent="handleSubmit">
-        <label class="file-input">
-            <MyIcon name='upload_file' class="upl"/>
-            <input class='file' type="file" accept="image/*" @change="handleFileChange"/>
+        <div v-if="upload" class="file-display">
+          <img :src="imageURL" @click="triggerFilePicker" @dragover.prevent @drop="handleFileDrop">
+          <label class="file-input">
+            <MyIcon name='add_photo_alternate' class="upl"/>
+            <input class='file' type="file" accept="image/*" @change="handleFileChange" ref="fileInput"/>
           </label>
-        <textarea class='text' type="text" v-model="text" placeholder="Type a message"
-        rows="5" :ref="textarea">
-            <MyIcon name="send_money" />
-        </textarea>
-        <button type="submit" class="form-btn"><MyIcon name="publish" /></button>
+          <span class="close">&times;</span>
+        </div>
+        <div class="input-field">
+          <MyIcon name='upload_file' class="upl" @click="upload_file"/>
+          <textarea class='text' type="text" v-model="text" placeholder="Type a message"
+          rows="5" :ref="textarea">
+          </textarea>
+          <button type="submit" class="form-btn"><MyIcon name="publish" /></button>
+        </div>
       </form>
       <p v-if="error">{{ error }}</p>
     </div>
@@ -65,57 +75,97 @@
     bottom: 0px;
     width: calc(100vw - 280px);
 }
-img {
+form {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    width: 100%;
+    background-color: white; 
+    border-radius: 12px;
+    /* border: 1px solid red; */
+    justify-content: flex-start;
+
+}
+.file-display {
     width: 250px;
     height: 300px;
     border: 2px solid #e99e3d;
-    border-bottom: none;
-    background-color: white;
-    padding: 10px;
     border-top-right-radius: 12px;
     border-top-left-radius: 12px;
-    background-size: 350px;
+    background-color: white;
+    border-bottom: none;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: center;
+
+}
+.file-display .close {
+  position: static;
+
+}
+.file-display img {
+    width: calc(100% - 20px);
+    height: calc(100% - 50px);
+    /* border: 1px solid red; */
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    background-color: #ccc;
+    border-bottom: none;
+    margin: 10px;
+    margin-bottom: 0px;
     object-fit: contain;
 }
-form {
-    display: flex;
-    flex-flow: row;
-    align-items: center;
-    width: 100%;
-    border: 1px solid #ee9e3d;
-    background-color: white; 
-    border-radius: 12px;
-    padding: 5px 13px;
-    gap: 10px;
-
-}
-.text {
-    width: 100%;
-    font-family: "IBM Plex Sans";
-    outline: none;
-    border: none;
-    font-size: 18px;
-    max-height: 100;
-    height: 50px;
-    resize: none;
-}
-button {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    flex-flow: row;
-    align-items: center;
-    justify-content: center;
-
-}
 .file-input {
+    /* border: 1px solid red; */
     cursor: pointer;
   }
   
   .file-input input {
     display: none;
   }
+  .input-field {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid #e99e3d;
+    border-radius: 12px;
+    background-color: white;
+    padding: 0 8px;
+    align-items: center ;
+    margin-top: 0px;
+  }
+
+.text {
+    font-family: "IBM Plex Sans";
+    outline: none;
+    border: none;
+    /* border: 1px solid green; */
+    font-size: 14px;
+    padding: 5px 0;
+    height: 50px;
+    margin-right: 30px;
+    flex-grow: 1;
+    /* resize: none; */
+}
+button {
+    border-radius: 8px;
+    width: 38px;
+    height: 38px;
+    text-align: center;
+    background-color: #e99e3d;
+    color: white;
+}
+button[disabled] {
+  color: #e99e3d;
+  background-color: transparent;
+}
+button span {
+  color: inherit;
+}
+
   .upl {
     font-size: 35px;
     color: #e99e3d;

@@ -18,7 +18,7 @@ const email = ref('');
 const password = ref('');
 const errorEmail = ref('');
 const errorPwd = ref('');
-const errorSubmit = ref('An error occured. Please try again later');
+const errorSubmit = ref(''); // To hold the error value from the request
 
 const validateForm = async () => {
   let isValid = true;
@@ -151,6 +151,7 @@ const validateForm = async () => {
     font-size: 13px;
   }
   section p:last-child {
+    margin-top: 20px;
     margin-bottom: 20px;
   }
 </style>

@@ -17,7 +17,7 @@ const email = ref('');
 const password = ref('');
 const errorEmail = ref('');
 const errorPwd = ref('');
-const errorSubmit = ref('An error occured. Please try again later');
+const errorSubmit = ref(''); // To hold the error value from the request
 const isLoading = ref(false);
 const validateForm = async () => {
   let isValid = true;

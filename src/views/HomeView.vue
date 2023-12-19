@@ -24,27 +24,27 @@ const close = () => {
 <template>
   <main>
     <div class="auth">
-      <button class="btn" role="button" @click="login">Login</button>
-      <button class="btn" role="button" @click="signup">Sign Up</button>
-    </div>
-    <div class="content">
       <h1>
         Finally Plankton!
       </h1>
       <p>
-        Are you tired of old Eugeeene Krabs rubbing his stupid secret formula in 
+        Are you tired of old Eugeeene Krabs rubbing his stupid secret formula in
         your face? Do you want Big Chef to finally listen to you when you say you can
         make a panini with rice, cheese, and a little bit of love? Well, you're
         here with the Secret Formular, we'll decode whatever it is that you want
-        from those nitty little veggies and bacon. Giving you your own assistant to 
+        from those nitty little veggies and bacon. Giving you your own assistant to
         cook up stunning recipes that can't go wrong no matter whatever you do
       </p>
+      <button class="btn" role="button" @click="signup">Get Started</button>
+      <!-- <button class="btn" role="button" @click="signup">Sign Up</button> -->
+    </div>
+    <div class="content">
+      <img src="/background.png" alt="background">
     </div>
     <div class="pop-up">
       <div class='pop-up-content'>
         <span class="close" @click="close">&times;</span>
-        <component :is="current === 'login' ? Login : Signup" :current="current" 
-        @update:current="current = $event"/>
+        <component :is="current === 'login' ? Login : Signup" :current="current" @update:current="current = $event" />
       </div>
     </div>
   </main>
@@ -52,77 +52,124 @@ const close = () => {
 <style scoped>
 main {
   display: flex;
-  height: calc(100vh - 70px);
+  height: 100vh;
   flex-flow: row-reverse;
   align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
 }
+
 .auth {
   display: flex;
   justify-content: center;
-  gap: 50px;
-  width: 50%;
-  flex-basis: 50%;
-  padding: 0  15px 0 30px;
-  align-items: center;
-}
-.auth button {
-  width: 150px;
-  height: 50px;
+  background: transparent;
+  flex-flow: column;
+  gap: 20px;
   font-weight: 600;
+  width: 50%;
+  padding: 50px 15px 0 30px;
+  align-items: flex-start;
+}
+
+.auth p {
+  font-weight: 600;
+}
+
+.auth h1 {
   font-family: "Space Grotesk";
 }
+
+.auth button {
+  width: 200px;
+  height: 60px;
+  font-weight: 600;
+  align-self: center;
+  font-family: "Space Grotesk";
+}
+
 .content {
-  width: 50%;
+  max-width: 50%;
   height: inherit;
+  width: 40%;
   color: white;
   display: flex;
+  background-color: #e99e3d;
+  align-items: center;
+  justify-content: center;
   background-size: 100px;
   padding: 0 30px 0 15px;
   background-repeat: repeat;
-  background-color: #ee9e3d;
   border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
   flex-flow: column wrap;
   gap: 20px;
 }
-.content p {
-  font-size: 20px;
-  line-height: 1.5;
+
+.content img {
+  border: 2px solid #e99e3d80;
+  width: 110%;
+  margin-left: 100px;
+  border-radius: 50%;
 }
 
-@media (max-width: 768px) {
-  main {
-    display: flex;
-    flex-flow: column wrap;
+@media screen and (min-height: 315px) and (max-height: 450px) and (min-width : 769px) {
+
+  .auth {
+    width: 90%;
+    padding: 50px 0;
+    margin: auto;
+    gap: 15px;
   }
- .auth {
-  position: fixed;
-  top: 0;
-  right: 30px;
-  gap: 20px;
-  background: transparent;
-  height: 70px;
-  width: fit-content;
- }
+
+  .auth h1 {
+    font-size: 24px;
+  }
+
+  .auth p {
+    font-size: 13px;
+  }
+
   .auth button {
-    width: auto;
+    width: 150px;
     height: 40px;
-
+    font-size: 13px;
   }
+
   .content {
-    width: auto;
-    /*background-image: url(background.jpg);*/
-    background-size: 100%;
-    border-radius: 0;
+    width: 90%;
+    padding: 50px 0;
+    margin: auto;
   }
 }
+
+@media screen and (max-width: 768px) {
+  main {
+    display: block;
+    padding: 50px 0;
+    background: #e99e3d80;
+    flex-flow: column;
+    overflow: auto;
+    scroll-behavior: smooth;
+  }
+
+  .auth {
+    width: 90%;
+    padding: 50px 0;
+    margin: auto;
+  }
+
+  .content {
+    display: none;
+  }
+}
+
 .pop-up {
   position: fixed;
   top: 0;
   right: 0;
   width: 100%;
   height: 100%;
-  background: rgba(233,158,61, 0.5);
+  background: rgba(233, 158, 61, 0.5);
   backdrop-filter: blur(7px);
   display: none;
   justify-content: center;
@@ -131,6 +178,7 @@ main {
   transition: width 0.5s ease-in-out;
   z-index: 1;
 }
+
 .pop-up-content {
   background: white;
   max-width: 400px;
@@ -142,6 +190,7 @@ main {
   position: relative;
   overflow: auto;
 }
+
 .close {
   font-size: 30px;
   position: absolute;
@@ -149,13 +198,11 @@ main {
   top: 0;
   font-weight: 800;
   cursor: pointer;
-  color:#e99e3d;
+  color: #e99e3d;
 
 }
-.close:hover, .close:active {
+
+.close:hover,
+.close:active {
   color: red;
-}
-</style>
-<!-- HTML !-->
-
-/* CSS */
+}</style>

@@ -1,70 +1,80 @@
 @import './base.css';
 .btn {
-    padding: 0.25em 0.5em;
-    width: auto;
-    height: 40px;
-    border-radius: 13px;
-    border: none;
-    font-size: 14px;
-    letter-spacing: 2px;
-    font-family: 'IBM Plex Sans', sans-serif;
-    text-decoration: none;
-    text-transform: capitalize;
-    background: white;
-    color: #e99e3d;
-    cursor: pointer;
-    border: 1px solid #e99e3d;
-    padding: 0.25em 0.75em;
-    box-shadow: 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 2px 2px 0px 0px #e99e3d;
-    position: relative;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    transition: top ease 0.5s, left ease 0.5s;
+  padding: 0.25em 0.5em;
+  width: auto;
+  height: 40px;
+  border-radius: 13px;
+  border: none;
+  font-size: 14px;
+  letter-spacing: 2px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  text-decoration: none;
+  text-transform: capitalize;
+  background: white;
+  color: #e99e3d;
+  cursor: pointer;
+  border: 1px solid #e99e3d;
+  padding: 0.25em 0.75em;
+  box-shadow:
+    1px 1px 0px 0px,
+    1px 1px 0px 0px,
+    1px 1px 0px 0px,
+    1px 1px 0px 0px,
+    2px 2px 0px 0px #e99e3d;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  transition:
+    top ease 0.5s,
+    left ease 0.5s;
 }
 .btn:hover {
-    background: #e99e3d;
-    color: white;
-    box-shadow: 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 1px 1px 0px 0px, 2px 2px 0px 0px #e99e3d;
-
-
+  background: #e99e3d;
+  color: white;
+  box-shadow:
+    1px 1px 0px 0px,
+    1px 1px 0px 0px,
+    1px 1px 0px 0px,
+    1px 1px 0px 0px,
+    2px 2px 0px 0px #e99e3d;
 }
 .btn:active {
-    box-shadow: 0px 0px 0px 0px;
-    top: 2px;
-    left: 2px;
-  }
-  .btn span {
-    color: inherit;
-  }
-  a, .a {
-    font-weight: 500;
-    font-size: 18px;
-    color: #e99e3d;
-  }
-  a:hover, .a:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
+  box-shadow: 0px 0px 0px 0px;
+  top: 2px;
+  left: 2px;
+}
+.btn span {
+  color: inherit;
+}
+a,
+.a {
+  font-weight: 600;
+  color: #e99e3d;
+}
+a:hover,
+.a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
 
-  .material-symbols-outlined {
-    font-variation-settings:
+.material-symbols-outlined {
+  font-variation-settings:
     'FILL' 0,
     'wght' 400,
     'GRAD' 0,
-    'opsz' 24
-  }
- 
+    'opsz' 24;
+}
+
 .menu-icon {
   font-size: 30px;
   display: none;
   cursor: pointer;
-
 }
 .menu-icon:hover {
   color: #fa8f03;
 }
-  @media screen and (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .menu-icon {
     display: block;
   }
@@ -77,7 +87,7 @@
   font-size: 24px;
   line-height: 1;
   border: none;
-  color:#e99e3d;
+  color: #e99e3d;
   background: none;
   outline: none;
   margin: 0;
@@ -85,4 +95,18 @@
 }
 .form-btn > span {
   color: #e99e3d;
+}
+
+.close {
+  font-size: 30px;
+  position: absolute;
+  right: 20px;
+  top: 0;
+  font-weight: 800;
+  cursor: pointer;
+  color: #e99e3d;
+}
+.close:hover,
+.close:active {
+  color: red;
 }
