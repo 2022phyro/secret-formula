@@ -63,7 +63,9 @@ const handleSubmit = () => {
   <div class="input-block">
     <form @submit.prevent="handleSubmit">
       <div v-if="upload" class="file-display">
-        <div class="background-text" v-if="!imageURL">Drag and drop your pictures or click the icon below to upload</div>
+        <div class="background-text" v-if="!imageURL">
+          Drag and drop your pictures or click the icon below to upload
+        </div>
         <img :src="imageURL" @click="triggerFilePicker" @dragover.prevent @drop="handleFileDrop" />
         <label class="file-input">
           <MyIcon name="add_photo_alternate" class="upl" @click="triggerFilePicker" />
@@ -73,7 +75,7 @@ const handleSubmit = () => {
             accept="image/*"
             @change="handleFileChange"
             ref="fileInput"
-          >
+          />
         </label>
         <span class="close" @click="clearImageInput">&times;</span>
       </div>
@@ -86,7 +88,7 @@ const handleSubmit = () => {
           placeholder="Type a message"
           rows="5"
           :ref="textarea"
-        >
+        />
         <button type="submit" class="form-btn"><MyIcon name="publish" /></button>
       </div>
     </form>

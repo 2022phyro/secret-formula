@@ -64,7 +64,7 @@ const cPopUp = () => {
 }
 </script>
 <template>
-  <MyHeader/>
+  <MyHeader />
   <div class="cook-view">
     <SideMenu @openPopup="popUp" />
     <ChatLayout />

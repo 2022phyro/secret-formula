@@ -43,7 +43,7 @@ const style = computed(() => {
 })
 </script>
 <template>
-    <div class="chatControl" :style="style">
+  <div class="chatControl" :style="style">
     <div :class="['options', showButtons ? 'active' : '']" @click.stop="stopPropagation">
       <MyIcon name="library_add" @click="newThread" />
       <MyIcon :name="showButtons ? 'close' : 'more_vert'" @click="showButtons = !showButtons" />
@@ -85,41 +85,41 @@ const style = computed(() => {
   z-index: 7;
 }
 .chatControl .options.active {
-    /* background-color: #f3c486; */
-    border-bottom: 3px solid #ceab7f;
-    font-weight: 600;
-    border-radius: 8px;
-  }
-  .chatControl ul {
-    list-style-type: none;
-    border: 1px solid #e99e3d;
-    background-color: white;
-    border-top: none;
-    border-radius: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    padding: 0;
-    width: 120px;
-    margin-right: 5px;
-    margin-top: -2px;
-    padding-top: 4px;
-    z-index: -1;
-  }
-  .chatControl ul li {
-    width: 100%;
-    display: flex;
-    flex-flow: row;
-    align-items: center;
-    font-size: 13px;
-    gap: 5px;
-    margin: 0;
-    padding: 5px 15px;
-    cursor: pointer;
-    font-weight: 300;
+  /* background-color: #f3c486; */
+  border-bottom: 3px solid #ceab7f;
+  font-weight: 600;
+  border-radius: 8px;
+}
+.chatControl ul {
+  list-style-type: none;
+  border: 1px solid #e99e3d;
+  background-color: white;
+  border-top: none;
+  border-radius: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  padding: 0;
+  width: 120px;
+  margin-right: 5px;
+  margin-top: -2px;
+  padding-top: 4px;
+  z-index: -1;
+}
+.chatControl ul li {
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  font-size: 13px;
+  gap: 5px;
+  margin: 0;
+  padding: 5px 15px;
+  cursor: pointer;
+  font-weight: 300;
 }
 .chatControl ul li:hover {
- border-radius: 10px;
- background: #e99e3d;
+  border-radius: 10px;
+  background: #e99e3d;
 }
 
 .chatControl li:last-child {
@@ -135,7 +135,6 @@ const style = computed(() => {
   .chatControl .options {
     gap: 15px;
     justify-content: flex-end;
-
   }
   /* .chatControl li span:last-child {
     display: none;

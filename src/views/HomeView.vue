@@ -22,9 +22,9 @@ const close = () => {
 </script>
 
 <template>
-  <header class='header'>
-    <img src="/logo.png" alt="logo"  class="logo">
-    <h1> Secret Formula</h1>
+  <header class="header">
+    <img src="/logo.png" alt="logo" class="logo" />
+    <h1>Secret Formula</h1>
   </header>
   <main>
     <div class="auth">
