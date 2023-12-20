@@ -50,12 +50,17 @@ const validateForm = async () => {
     try {
       // Simulate a request
       await new Promise((resolve) => setTimeout(resolve, 2000))
-      const res = await inst().post(`${baseUrl}/auth/login`, { login: email.value, password: password.value })
+      const res = await inst().post(`${baseUrl}/auth/login`, {
+        login: email.value,
+        password: password.value
+      })
       lset('token', res.data.auth_info.atoken)
       router.push('/cook/')
     } catch (err) {
-      const message = err.response?.data?.message;
-      errorSubmit.value = message?.includes("authenticate") ? "Invalid email or password" : "An error occurred. Please try again later";
+      const message = err.response?.data?.message
+      errorSubmit.value = message?.includes('authenticate')
+        ? 'Invalid email or password'
+        : 'An error occurred. Please try again later'
     } finally {
       isLoading.value = false
     }
@@ -67,11 +72,13 @@ const validateForm = async () => {
   <section>
     <h2>Let's continue the meal from where we stopped shall we</h2>
     <form @submit.prevent="validateForm">
-      <label for="email">Email
+      <label for="email"
+        >Email
         <input type="email" id="email" placeholder="Enter your email" v-model="email" />
         <div class="error">{{ errorEmail }}</div>
       </label>
-      <label for="password">Password
+      <label for="password"
+        >Password
         <input type="password" id="password" placeholder="Enter your password" v-model="password" />
         <div class="error">{{ errorPwd }}</div>
       </label>
@@ -165,4 +172,5 @@ section p {
 section p:last-child {
   margin-top: 20px;
   margin-bottom: 20px;
-}</style>
+}
+</style>

@@ -20,7 +20,7 @@ header {
   padding: 0 40px;
 }
 h1 {
-  font-family: "Space Grotesk";
+  font-family: 'Space Grotesk';
   color: #e99e3d;
   font-weight: 600;
   font-size: 20px;

@@ -41,10 +41,10 @@ const validateForm = async () => {
   } else if (!/^[a-zA-Z]+$/.test(name.value)) {
     errorName.value = 'Name can only contain letters and spaces'
     isValid = false
-  }  else if (name.value.length > 20) {
+  } else if (name.value.length > 20) {
     errorName.value = 'Name too long'
     isValid = false
-  }  else {
+  } else {
     errorName.value = ''
   }
   if (password.value === '') {
@@ -61,15 +61,22 @@ const validateForm = async () => {
     isLoading.value = true
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000))
-      const res = await inst().post(`${baseUrl}/auth/signup`, { email: email.value, password: password.value, first_name: name.value})
+      const res = await inst().post(`${baseUrl}/auth/signup`, {
+        email: email.value,
+        password: password.value,
+        first_name: name.value
+      })
       if (res.status == 201) {
-        const login = await inst().post(`${baseUrl}/auth/login`, { login: email.value, password: password.value })
+        const login = await inst().post(`${baseUrl}/auth/login`, {
+          login: email.value,
+          password: password.value
+        })
         lset('token', login.data.auth_info.atoken)
         router.push('/cook/')
       }
     } catch (err) {
-      const message = err.response?.data?.message;
-      errorSubmit.value = message?.includes("authenticate") ? "Invalid email or password" : message;
+      const message = err.response?.data?.message
+      errorSubmit.value = message?.includes('authenticate') ? 'Invalid email or password' : message
     } finally {
       isLoading.value = false
     }

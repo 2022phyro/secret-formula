@@ -33,8 +33,8 @@ const close = () => {
         Are you tired of old Eugeeene Krabs rubbing his stupid secret formula in your face? Do you
         want Big Chef to finally listen to you when you say you can make a panini with rice, cheese,
         and a little bit of love? Well, you're here with the Secret Formular, we'll decode whatever
-        it is that you want from those nitty little veggies and bacon. 
-        Giving you your own assistant to cook up stunning recipes that can't go wrong no matter whatever you do
+        it is that you want from those nitty little veggies and bacon. Giving you your own assistant
+        to cook up stunning recipes that can't go wrong no matter whatever you do
       </p>
       <button class="btn" role="button" @click="signup">Get Started</button>
       <!-- <button class="btn" role="button" @click="signup">Sign Up</button> -->

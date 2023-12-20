@@ -1,8 +1,20 @@
 <script setup>
 import MyIcon from './MyIcon.vue'
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { inst, baseUrl } from '@/utils.js'
+import { useRouter, useRoute } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useThreadStateStore } from '@/stores/threadState'
+
+const threadState = useThreadStateStore()
+const { newThread, editThread } = storeToRefs(threadState)
+const { setEditThread, setNewThread } = threadState
+
+const router = useRouter()
+const route = useRoute()
 const menu = ref(false)
 const active = ref(10)
+const allThread = ref([])
 const emit = defineEmits(['openPopup', 'changeThread'])
 
 const fabOpen = ref(false)
@@ -15,20 +27,53 @@ onMounted(() => {
   window.addEventListener('click', closeFab)
 })
 
+onMounted(() => {
+  inst(true)
+    .get(`${baseUrl}/chat/threads`)
+    .then((res) => {
+      allThread.value = res.data.threads
+    })
+    .catch((err) => {
+      console.log(err.response.data)
+    })
+})
+
 onBeforeUnmount(() => {
   window.removeEventListener('click', closeFab)
 })
+watch(editThread, () => {
+  if (editThread.value) {
+    const id = route.params.id
+    console.log(id, editThread.value)
+    const thread = allThread.value.find(thread => thread.id === id)
+    if (thread) {
+      thread.title = editThread.value
+    }
+    setEditThread(null)
+  }
+})
+
+const deleteThread = () => {
+  const id = route.params.id
+  const thread = allThread.value.find(thread => thread.id === id)
+  if (thread) {
+    allThread.value.splice(allThread.value.indexOf(thread), 1)
+    router.push('/cook');
+  }
+}
 
 const selectThread = (id) => {
   active.value = id
   emit('changeThread', id)
+  router.push(`/cook/${id}`)
 }
 const logout = () => {
   emit('openPopup', 'logout')
 }
-const deleteA = () => {
-  emit('openPopup', 'deleteAcc')
-}
+// Disabled for the meantime
+// const deleteA = () => {
+//   emit('openPopup', 'deleteAcc')
+// }
 const toggleMenu = () => {
   menu.value = !menu.value
 }
@@ -41,14 +86,15 @@ const toggleMenu = () => {
     </div>
     <!--Implement infinte scrolling, also the list will have it's own component for rendering
         the threads and deleting them-->
-    <ul class="threads">
+    <ul class="threads" 
+      @delThread="deleteThread">
       <li
-        v-for="i in 20"
-        :key="i"
-        :class="['thread', i == active ? 'active' : '']"
-        @click="selectThread(i)"
+        v-for="thread in allThread"
+        :key="thread.id"
+        :class="['thread', thread.id == active ? 'active' : '']"
+        @click="selectThread(thread.id)"
       >
-        How to make extremely annoying egusi soup
+        {{ thread.title }}
       </li>
     </ul>
     <div class="settings">
@@ -58,7 +104,9 @@ const toggleMenu = () => {
       </div>
       <ul v-show="fabOpen" @click.stop>
         <li @click="logout"><MyIcon name="logout" />Log out</li>
-        <li @click="deleteA"><MyIcon name="delete" />Delete Account</li>
+        <!-- <li @click="deleteA">
+          <MyIcon name="delete" />Delete Account
+        </li> -->
       </ul>
     </div>
   </div>
@@ -181,14 +229,14 @@ const toggleMenu = () => {
   top: 0;
   bottom: 0;
 }
+
 .opener.active {
   background-color: #f3c486;
   border-bottom: 3px solid rgba(0, 0, 0, 0.2);
   font-weight: 600;
   border-radius: 8px;
 }
-.settings {
-}
+
 .opener {
   padding: 5px 10px;
   line-height: 1;
@@ -200,6 +248,7 @@ const toggleMenu = () => {
   vertical-align: center;
   cursor: pointer;
 }
+
 .settings ul {
   list-style-type: none;
   border: 1px solid #e99e3d;
@@ -211,6 +260,7 @@ const toggleMenu = () => {
   margin-left: 40px;
   margin-right: 7px;
 }
+
 .settings ul li {
   width: 100%;
   display: flex;
@@ -223,6 +273,7 @@ const toggleMenu = () => {
   cursor: pointer;
   font-weight: 300;
 }
+
 .settings ul li:hover {
   border-radius: 8px;
   background: #e99e3d;

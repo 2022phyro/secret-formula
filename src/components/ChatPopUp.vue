@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import ButtonLoader from './ButtonLoader.vue'
 import MyIcon from './MyIcon.vue'
 const isLoading = ref(false)
-const emit = defineEmits(['closePopUp'])
+const emit = defineEmits(['closePopUp', 'pFormSuccess', 'nFormSuccess', 'dFormSuccess'])
 
 const props = defineProps({
   visible: Boolean,
@@ -41,14 +41,21 @@ const closeFormAndCallback = async () => {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     if (props.callback) {
       const body = {
-        name: thread.value
+        title: thread.value
       }
-      await props.callback(body, ...props.args)
+    const res = await props.callback(body, ...props.args)
+      switch (props.type) {
+        case 'newThr': {
+          emit('nFormSuccess', res.data)
+          break}
+        case 'editThr': {
+          emit('pFormSuccess', thread.value)
+          break;}
+      }
     }
   } catch (err) {
-    console.error(err);
+    console.error(err)
   } finally {
-    console.log('Thread', thread.value)
     thread.value = ''
     isLoading.value = false
     emit('closePopUp')

@@ -4,10 +4,13 @@ import ChatLayout from '@/components/ChatLayout.vue'
 import ChatPopUp from '@/components/ChatPopUp.vue'
 import ChatControl from '@/components/ChatControl.vue'
 import MyHeader from '@/components/MyHeader.vue'
-import { inst, baseUrl } from '@/utils.js';
-import { ref } from 'vue';
+import { inst, baseUrl } from '@/utils.js'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router';
+import { useThreadStateStore } from '@/stores/threadState'
 
+const threadState = useThreadStateStore()
+const { setNewThread, setEditThread } = threadState
 const router = useRouter()
 const visible = ref(false)
 const pType = ref('')
@@ -21,13 +24,31 @@ const callBackLogout = async () => {
     console.log(res.data)
     localStorage.clear()
     router.push('/')
-
   } catch (err) {
     console.log(err.response.data)
     throw new Error(err)
   }
 }
-
+const callBackEditThread = async (body) => {
+  try {
+    const id = router.currentRoute.value.params.id
+    const res = await inst(true).patch(`${baseUrl}/chat/thread/${id}`, body)
+    console.log(res.data)
+  } catch (err) {
+    console.log(err.response.data)
+    throw new Error(err)
+  }
+}
+const patchBar = (title) => {
+  console.log("War", title)
+  setEditThread(title)
+}
+const deleteBar = () => {
+}
+const newBar = ( threadData) => {
+  setNewThread(threadData)
+}
+// const
 const popUp = (name, formDefault) => {
   switch (name) {
     case 'logout': {
@@ -57,8 +78,8 @@ const popUp = (name, formDefault) => {
       pDecision.value = false
       visible.value = true
       pType.value = 'editThr'
-      pCall.value = console.log
-      pArgs.value = ['hello', 'edit thread']
+      pCall.value = callBackEditThread
+      pArgs.value = []
       pDefault.value = formDefault
       break
     }
@@ -83,7 +104,7 @@ const cPopUp = () => {
 <template>
   <MyHeader />
   <div class="cook-view">
-    <SideMenu @openPopup="popUp" />
+    <SideMenu @openPopup="popUp"/>
     <ChatLayout />
     <ChatControl @openPopUp="popUp" />
     <ChatPopUp
@@ -94,6 +115,9 @@ const cPopUp = () => {
       :args="pArgs"
       :formDefault="pDefault"
       @closePopUp="cPopUp"
+      @pFormSuccess="patchBar"
+      @nFormSuccess="newBar"
+      @dFormSuccess="deleteBar"
     />
   </div>
 </template>
