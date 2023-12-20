@@ -1,6 +1,7 @@
 <script setup>
 // import MyIcon from './MyIcon.vue';
 import ChatInput from './ChatInput.vue'
+import AIReply from './AIReply.vue'
 import UserRequest from './UserRequest.vue'
 </script>
 <template>
@@ -10,6 +11,7 @@ import UserRequest from './UserRequest.vue'
     <ul class="chat-body">
       start
       <UserRequest />
+      <AIReply/>
       <li v-for="i in 100" :key="i">chat items</li>
     </ul>
     <ChatInput />
@@ -35,7 +37,7 @@ import UserRequest from './UserRequest.vue'
   max-width: 700px;
   padding: 0;
   width: 100%;
-  background: greenyellow;
+  /* background: greenyellow; */
   margin-bottom: 120px;
 }
 @media screen and (max-width: 768px) {
