@@ -83,7 +83,6 @@ image: "/background.jpg"},
   right: 0;
   top: 60px;
   width: calc(100vw - 280px);
-  border: 1px solid red;
   display: flex;
   align-self: stretch;
   flex-flow: column;

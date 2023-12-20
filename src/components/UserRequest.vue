@@ -50,7 +50,7 @@ const props = defineProps({
 }
 .user {
     position: absolute;
-    top: -25px;
+    top: -35px;
     right: 20px;
     background: transparent;
     backdrop-filter: blur(4px);
@@ -71,6 +71,9 @@ const props = defineProps({
     .content {
         width: 100%;
 
+    }
+    .user {
+        top: -25px;
     }
 }
 </style>
