@@ -4,21 +4,38 @@ import ChatLayout from '@/components/ChatLayout.vue'
 import ChatPopUp from '@/components/ChatPopUp.vue'
 import ChatControl from '@/components/ChatControl.vue'
 import MyHeader from '@/components/MyHeader.vue'
+import { inst, baseUrl } from '@/utils.js';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-import { ref } from 'vue'
+const router = useRouter()
 const visible = ref(false)
 const pType = ref('')
 const pDecision = ref(false)
 const pCall = ref(null)
 const pDefault = ref('')
 const pArgs = ref([])
+const callBackLogout = async () => {
+  try {
+    const res = await inst(true).post(`${baseUrl}/auth/logout`)
+    console.log(res.data)
+    localStorage.clear()
+    router.push('/')
+
+  } catch (err) {
+    console.log(err.response.data)
+    throw new Error(err)
+  }
+}
+
 const popUp = (name, formDefault) => {
   switch (name) {
     case 'logout': {
       pDecision.value = true
       visible.value = true
       pType.value = 'logout'
-      break
+      pCall.value = callBackLogout
+      break;
     }
     case 'deleteAcc': {
       pDecision.value = true

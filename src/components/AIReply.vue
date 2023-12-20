@@ -52,7 +52,7 @@ const props = defineProps({
 .user {
     position: absolute;
     top: -35px;
-    left: 20px;
+    left: -8px;
     background: transparent;
     backdrop-filter: blur(4px);
     display: flex;

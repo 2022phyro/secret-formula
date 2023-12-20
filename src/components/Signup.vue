@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import ButtonLoader from './ButtonLoader.vue'
+import { inst, baseUrl, lset } from '@/utils.js'
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   current: String
@@ -14,8 +15,10 @@ const toLogin = () => {
 
 const router = useRouter()
 const email = ref('')
+const name = ref('')
 const password = ref('')
 const errorEmail = ref('')
+const errorName = ref('')
 const errorPwd = ref('')
 const errorSubmit = ref('') // To hold the error value from the request
 const isLoading = ref(false)
@@ -32,13 +35,23 @@ const validateForm = async () => {
   } else {
     errorEmail.value = ''
   }
-
-  // Simple validation for password
+  if (!name.value || name.value === '') {
+    errorName.value = 'Your name is required'
+    isValid = false
+  } else if (!/^[a-zA-Z]+$/.test(name.value)) {
+    errorName.value = 'Name can only contain letters and spaces'
+    isValid = false
+  }  else if (name.value.length > 20) {
+    errorName.value = 'Name too long'
+    isValid = false
+  }  else {
+    errorName.value = ''
+  }
   if (password.value === '') {
     errorPwd.value = 'Password is required'
     isValid = false
-  } else if (password.value.length > 20 || password.value.length < 6) {
-    errorPwd.value = 'Password must be between 6 and 20 characters'
+  } else if (password.value.length > 20 || password.value.length < 8) {
+    errorPwd.value = 'Password must be between 8 and 20 characters'
     isValid = false
   } else {
     errorPwd.value = ''
@@ -47,10 +60,16 @@ const validateForm = async () => {
   if (isValid) {
     isLoading.value = true
     try {
-      // Simulate a request
       await new Promise((resolve) => setTimeout(resolve, 2000))
-      console.log({ email: email.value, password: password.value })
-      router.push('/cook/')
+      const res = await inst().post(`${baseUrl}/auth/signup`, { email: email.value, password: password.value, first_name: name.value})
+      if (res.status == 201) {
+        const login = await inst().post(`${baseUrl}/auth/login`, { login: email.value, password: password.value })
+        lset('token', login.data.auth_info.atoken)
+        router.push('/cook/')
+      }
+    } catch (err) {
+      const message = err.response?.data?.message;
+      errorSubmit.value = message?.includes("authenticate") ? "Invalid email or password" : message;
     } finally {
       isLoading.value = false
     }
@@ -62,6 +81,11 @@ const validateForm = async () => {
   <section>
     <h2>Take the leap of faith into the bliss of a good food</h2>
     <form @submit.prevent="validateForm">
+      <label for="name"
+        >Name
+        <input type="text" id="name" placeholder="Enter your name" v-model="name" />
+        <div class="error">{{ errorName }}</div>
+      </label>
       <label for="email"
         >Email
         <input type="email" id="email" placeholder="Enter your email" v-model="email" />

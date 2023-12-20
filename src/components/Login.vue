@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import ButtonLoader from './ButtonLoader.vue'
-
+import { inst, baseUrl, lset } from '@/utils.js'
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   current: String
@@ -50,8 +50,12 @@ const validateForm = async () => {
     try {
       // Simulate a request
       await new Promise((resolve) => setTimeout(resolve, 2000))
-      console.log({ email: email.value, password: password.value })
+      const res = await inst().post(`${baseUrl}/auth/login`, { login: email.value, password: password.value })
+      lset('token', res.data.auth_info.atoken)
       router.push('/cook/')
+    } catch (err) {
+      const message = err.response?.data?.message;
+      errorSubmit.value = message?.includes("authenticate") ? "Invalid email or password" : "An error occurred. Please try again later";
     } finally {
       isLoading.value = false
     }
@@ -63,13 +67,11 @@ const validateForm = async () => {
   <section>
     <h2>Let's continue the meal from where we stopped shall we</h2>
     <form @submit.prevent="validateForm">
-      <label for="email"
-        >Email
+      <label for="email">Email
         <input type="email" id="email" placeholder="Enter your email" v-model="email" />
         <div class="error">{{ errorEmail }}</div>
       </label>
-      <label for="password"
-        >Password
+      <label for="password">Password
         <input type="password" id="password" placeholder="Enter your password" v-model="password" />
         <div class="error">{{ errorPwd }}</div>
       </label>
@@ -93,11 +95,13 @@ section {
   padding: 30px 0;
   height: inherit;
 }
+
 section h2 {
   text-align: center;
   font-size: 24px;
   font-weight: 600;
 }
+
 form {
   display: flex;
   flex-direction: column;
@@ -137,9 +141,11 @@ input::placeholder {
   color: #ccc;
   font-style: italic;
 }
+
 input:focus {
   border: 1px solid rgba(233, 158, 61);
 }
+
 button {
   width: 90%;
   margin-top: 20px;
@@ -151,11 +157,12 @@ button {
   color: red;
   font-size: 13px;
 }
+
 section p {
   margin-top: 10px;
 }
+
 section p:last-child {
   margin-top: 20px;
   margin-bottom: 20px;
-}
-</style>
+}</style>

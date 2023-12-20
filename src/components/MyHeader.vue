@@ -2,7 +2,7 @@
 <template>
   <header>
     <!-- <img src="/logo.png" alt="The secret Formular" class="logo" /> -->
-    <h1>Secret Formula 1.0</h1>
+    <h1>Secret Formula</h1>
   </header>
 </template>
 <style scoped>
@@ -20,7 +20,8 @@ header {
   padding: 0 40px;
 }
 h1 {
-  /* font-family: "Space Grotesk"; */
+  font-family: "Space Grotesk";
+  color: #e99e3d;
   font-weight: 600;
   font-size: 20px;
   margin: auto;

@@ -43,8 +43,10 @@ const closeFormAndCallback = async () => {
       const body = {
         name: thread.value
       }
-      props.callback(body, ...props.args)
+      await props.callback(body, ...props.args)
     }
+  } catch (err) {
+    console.error(err);
   } finally {
     console.log('Thread', thread.value)
     thread.value = ''

@@ -100,7 +100,6 @@ image: "/background.jpg"},
 .chat-body li {
   list-style: none;
   padding: 20px;
-  padding-bottom: 0;
   width: 100%;
   /* background: red; */
 }
