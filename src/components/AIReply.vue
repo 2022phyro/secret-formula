@@ -1,13 +1,9 @@
 <script setup>
 import { ref } from 'vue';
-const content = ref('');
-const image = ref('');
 const props = defineProps({
     content: String,
     image: String,
 })
-content.value = props.content;
-image.value = props.image;
 
 </script>
 <template>
@@ -16,11 +12,10 @@ image.value = props.image;
             <img src="/logo.png" alt="user" class="avatar" />
         </div>
         <div class="content">
-            <p>
-                Suppose I give you the following ingredients: curry tumeric fenugreek,
-                what can you whip up for me?
+            <p v-if="props.content">
+                {{ props.content }}
             </p>
-            <img src="/logo.png" alt="uploaded picture">
+            <img v-if="props.image" img :src="props.image" alt="uploaded picture">
         </div>
     </div>
 </template>

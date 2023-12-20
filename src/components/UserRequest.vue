@@ -1,26 +1,21 @@
 <script setup>
 import { ref } from 'vue';
-const content = ref('');
-const image = ref('');
 const props = defineProps({
     content: String,
     image: String,
 })
-content.value = props.content;
-image.value = props.image;
 
 </script>
 <template>
     <div class="container">
         <div class="user">
             <img src="/chef.png" alt="user" class="avatar" />
-            <h3>you</h3>
         </div>
         <div class="content">
-            <p>
-                Hi there, My name is Afam
+            <p v-if="props.content">
+                {{ props.content }}
             </p>
-            <!-- <img src="/logo.png" alt="uploaded picture"> -->
+            <img v-if="props.image" img :src="props.image" alt="uploaded picture">
         </div>
     </div>
 </template>
@@ -66,7 +61,7 @@ image.value = props.image;
     border: 2px solid #e99e3d;
     border-radius: 20px;
     border-bottom: none;
-    padding: 0 5px;
+    padding: 5px 5px 0;
 }
 .user h3 {
     font-family: 'Space Grotesk';
