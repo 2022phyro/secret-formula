@@ -73,7 +73,8 @@ watch(newThread, () => {
   if (newThread.value && Object.keys(newThread.value).length > 0) {
     allThread.value.unshift(newThread.value)
     router.push(`/cook/${newThread.value.id}`);
-    selectThread(newThread.value.id)
+    active.value = newThread.value.id
+    router.push(`/cook/${newThread.value.id}`)
     setNewThread({})
   }
 })
@@ -82,8 +83,11 @@ const selectThread = (id) => {
   active.value = id
   emit('changeThread', id)
   router.push(`/cook/${id}`)
+  menu.value = !menu.value
 }
+
 const logout = () => {
+  menu.value = !menu.value
   emit('openPopup', 'logout')
 }
 // Disabled for the meantime
