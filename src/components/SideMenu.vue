@@ -1,7 +1,7 @@
 <script setup>
 import MyIcon from './MyIcon.vue'
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
-import { inst, baseUrl } from '@/utils.js'
+import { inst, baseUrl, lget } from '@/utils.js'
 import { useRouter, useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useThreadStateStore } from '@/stores/threadState'
@@ -16,9 +16,10 @@ const menu = ref(false)
 const active = ref(10)
 const allThread = ref([])
 const emit = defineEmits(['openPopup', 'changeThread'])
-
+const settings = ref('Settings')
 const fabOpen = ref(false)
 
+settings.value = lget('user').firstName
 const closeFab = () => {
   fabOpen.value = false
 }
@@ -115,7 +116,7 @@ const toggleMenu = () => {
     <div class="settings">
       <div :class="['opener', fabOpen ? 'active' : '']" @click.stop="fabOpen = !fabOpen">
         <MyIcon name="settings" />
-        Settings
+        {{ settings }}
       </div>
       <ul v-show="fabOpen" @click.stop>
         <li @click="logout"><MyIcon name="logout" />Log out</li>

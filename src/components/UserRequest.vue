@@ -1,14 +1,17 @@
 <script setup>
+import { lget } from '@/utils';
 import { ref } from 'vue'
 const props = defineProps({
   content: String,
   image: String
 })
+const avatar = ref('/chef.png')
+avatar.value = lget('user').avatar
 </script>
 <template>
   <div class="container">
     <div class="user">
-      <img src="/chef.png" alt="user" class="avatar" />
+      <img :src="avatar" alt="user" class="avatar" />
     </div>
     <div class="content">
       <p v-if="props.content">

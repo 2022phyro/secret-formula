@@ -4,8 +4,8 @@ import ChatLayout from '@/components/ChatLayout.vue'
 import ChatPopUp from '@/components/ChatPopUp.vue'
 import ChatControl from '@/components/ChatControl.vue'
 import MyHeader from '@/components/MyHeader.vue'
-import { inst, baseUrl } from '@/utils.js'
-import { ref } from 'vue'
+import { inst, baseUrl, lset } from '@/utils.js'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router';
 import { useThreadStateStore } from '@/stores/threadState'
 
@@ -17,6 +17,24 @@ const pType = ref('')
 const pDecision = ref(false)
 const pCall = ref(null)
 const pArgs = ref([])
+
+onMounted(() => {
+  inst(true)
+    .get(`${baseUrl}/auth/user`)
+    .then((res) => {
+      const userInfo = {
+        firstName: res.data.first_name,
+        email: res.data.email,
+        avatar: res.data.profile_picture,
+      }
+      lset('user', userInfo)
+    })
+    .catch((err) => {
+      if (err) {
+        console.log(err.response)
+      }
+    })
+  }) 
 const callBackLogout = async () => {
   try {
     const res = await inst(true).post(`${baseUrl}/auth/logout`)
