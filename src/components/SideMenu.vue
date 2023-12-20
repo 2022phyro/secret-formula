@@ -7,8 +7,8 @@ import { storeToRefs } from 'pinia'
 import { useThreadStateStore } from '@/stores/threadState'
 
 const threadState = useThreadStateStore()
-const { newThread, editThread } = storeToRefs(threadState)
-const { setEditThread, setNewThread } = threadState
+const { deleteThread, newThread, editThread } = storeToRefs(threadState)
+const { setDeleteThread, setEditThread, setNewThread } = threadState
 
 const router = useRouter()
 const route = useRoute()
@@ -28,13 +28,19 @@ onMounted(() => {
 })
 
 onMounted(() => {
+  const id = route.params.id
+  if (id) {
+    active.value = id
+  }
   inst(true)
     .get(`${baseUrl}/chat/threads`)
     .then((res) => {
       allThread.value = res.data.threads
     })
     .catch((err) => {
-      console.log(err.response.data)
+      if (err) {
+        console.log(err.response)
+      }
     })
 })
 
@@ -44,23 +50,32 @@ onBeforeUnmount(() => {
 watch(editThread, () => {
   if (editThread.value) {
     const id = route.params.id
-    console.log(id, editThread.value)
     const thread = allThread.value.find(thread => thread.id === id)
     if (thread) {
       thread.title = editThread.value
     }
-    setEditThread(null)
+    setEditThread('')
   }
 })
-
-const deleteThread = () => {
-  const id = route.params.id
-  const thread = allThread.value.find(thread => thread.id === id)
-  if (thread) {
-    allThread.value.splice(allThread.value.indexOf(thread), 1)
-    router.push('/cook');
+watch(deleteThread, () => {
+  if (deleteThread.value) {
+    const id = route.params.id
+    const thread = allThread.value.find(thread => thread.id === id)
+    if (thread) {
+      allThread.value.splice(allThread.value.indexOf(thread), 1)
+      setDeleteThread(false)
+      router.push('/cook');
+    }
   }
-}
+})
+watch(newThread, () => {
+  if (newThread.value && Object.keys(newThread.value).length > 0) {
+    allThread.value.unshift(newThread.value)
+    router.push(`/cook/${newThread.value.id}`);
+    selectThread(newThread.value.id)
+    setNewThread({})
+  }
+})
 
 const selectThread = (id) => {
   active.value = id

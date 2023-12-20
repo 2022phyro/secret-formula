@@ -10,13 +10,12 @@ import { useRouter } from 'vue-router';
 import { useThreadStateStore } from '@/stores/threadState'
 
 const threadState = useThreadStateStore()
-const { setNewThread, setEditThread } = threadState
+const { setNewThread, setEditThread, setDeleteThread } = threadState
 const router = useRouter()
 const visible = ref(false)
 const pType = ref('')
 const pDecision = ref(false)
 const pCall = ref(null)
-const pDefault = ref('')
 const pArgs = ref([])
 const callBackLogout = async () => {
   try {
@@ -33,23 +32,42 @@ const callBackEditThread = async (body) => {
   try {
     const id = router.currentRoute.value.params.id
     const res = await inst(true).patch(`${baseUrl}/chat/thread/${id}`, body)
-    console.log(res.data)
+    return res.data
+  } catch (err) {
+    console.log(err.response.data)
+    throw new Error(err)
+  }
+}
+const callBackNewThread = async (body) => {
+  try {
+    const res = await inst(true).post(`${baseUrl}/chat/thread`, body)
+    return res.data
+  } catch (err) {
+    console.log(err.response.data)
+    throw new Error(err)
+  }
+}
+const callBackDeleteThread = async () => {
+  try {
+    const id = router.currentRoute.value.params.id
+    const res = await inst(true).delete(`${baseUrl}/chat/thread/${id}`)
+    return res.data
   } catch (err) {
     console.log(err.response.data)
     throw new Error(err)
   }
 }
 const patchBar = (title) => {
-  console.log("War", title)
   setEditThread(title)
 }
 const deleteBar = () => {
+  setDeleteThread(true)
 }
 const newBar = ( threadData) => {
   setNewThread(threadData)
 }
 // const
-const popUp = (name, formDefault) => {
+const popUp = (name) => {
   switch (name) {
     case 'logout': {
       pDecision.value = true
@@ -70,8 +88,8 @@ const popUp = (name, formDefault) => {
       pDecision.value = false
       visible.value = true
       pType.value = 'newThr'
-      pCall.value = console.log
-      pArgs.value = ['hello', 'new thread']
+      pCall.value = callBackNewThread
+      pArgs.value = []
       break
     }
     case 'editThread': {
@@ -80,15 +98,14 @@ const popUp = (name, formDefault) => {
       pType.value = 'editThr'
       pCall.value = callBackEditThread
       pArgs.value = []
-      pDefault.value = formDefault
       break
     }
     case 'deleteThread': {
       pDecision.value = true
       visible.value = true
       pType.value = 'deleteThr'
-      pCall.value = console.log
-      pArgs.value = ['hello', 'd thread']
+      pCall.value = callBackDeleteThread
+      pArgs.value = []
       break
     }
   }
@@ -113,7 +130,6 @@ const cPopUp = () => {
       :decision="pDecision"
       :callback="pCall"
       :args="pArgs"
-      :formDefault="pDefault"
       @closePopUp="cPopUp"
       @pFormSuccess="patchBar"
       @nFormSuccess="newBar"

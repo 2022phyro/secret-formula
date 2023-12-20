@@ -4,7 +4,7 @@ import { ref, computed } from "vue";
 export const useThreadStateStore = defineStore("threadState", () => {
     const editThread = ref('')
     const newThread = ref({})
-    
+    const deleteThread = ref(false)
 
     function setEditThread(thread) {
         editThread.value = thread;
@@ -12,5 +12,8 @@ export const useThreadStateStore = defineStore("threadState", () => {
     function setNewThread(thread) {
         newThread.value = thread;
     }
-    return { editThread, newThread, setEditThread, setNewThread};
+    function setDeleteThread(thread) {
+        deleteThread.value = thread;
+    }
+    return { deleteThread, editThread, newThread, setEditThread, setNewThread, setDeleteThread};
 });

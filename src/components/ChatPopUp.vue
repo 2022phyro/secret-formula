@@ -10,11 +10,9 @@ const props = defineProps({
   type: String,
   decision: Boolean,
   callback: Function,
-  formDefault: String,
   args: Array
 })
-const thread = ref(props.formDefault ? props.formDefault : '')
-
+const thread = ref('')
 const visile = computed(() => props.visible)
 const dsn = computed(() => props.decision)
 const close = () => {
@@ -25,7 +23,10 @@ const closeAndCallback = async () => {
   try {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     if (props.callback) {
-      props.callback(...props.args)
+      await props.callback(...props.args)
+      if (props.type === 'deleteThr') {
+        emit('dFormSuccess')
+      }
     }
   } finally {
     isLoading.value = false
@@ -46,7 +47,7 @@ const closeFormAndCallback = async () => {
     const res = await props.callback(body, ...props.args)
       switch (props.type) {
         case 'newThr': {
-          emit('nFormSuccess', res.data)
+          emit('nFormSuccess', res.thread)
           break}
         case 'editThr': {
           emit('pFormSuccess', thread.value)
