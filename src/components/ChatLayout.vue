@@ -3,7 +3,7 @@
 import ChatInput from './ChatInput.vue'
 import AIReply from './AIReply.vue'
 import UserRequest from './UserRequest.vue'
-import { onMounted, ref, watch, watchEffect } from 'vue'
+import { onMounted, provide, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { inst, baseUrl, lget } from '@/utils'
 import { useChatStateStore, useThreadStateStore } from '@/stores/state'
@@ -13,7 +13,7 @@ const errorThread = ref('')
 const isStreaming = ref(false)
 let chatContainer = ref(null)
 const isLoaded = ref(false)
-
+provide('isStreaming', isStreaming)
 const { setCurrentThread } = useThreadStateStore()
 
 const scrollToBottom = () => {
@@ -33,7 +33,7 @@ watch(testData, () => {
   scrollToBottom()
 })
 watch(isStreaming, (newValue) => {
-  if (newValue) scrollToBottom()
+  if (!newValue) scrollToBottom()
 })
 const route = useRoute()
 onMounted(() => {
@@ -48,7 +48,6 @@ onMounted(() => {
     .get(`${baseUrl}/chat/all?thread_id=${id}`)
     .then(({ data }) => {
       testData.value = data.chats
-      console.log(testData.value)
     })
     .catch((err) => {
       console.error(err)
@@ -121,7 +120,7 @@ const streamData = async () => {
     console.error(err)
     return
   } finally {
-    isStreaming.value = false;
+    isStreaming.value = false
   }
 }
 </script>
@@ -137,7 +136,10 @@ const streamData = async () => {
       </li>
       <li class="error">{{ errorThread }}</li>
     </ul>
-    <ChatInput @newChat="newChatCallBack" @postSuccess="streamCallBack" />
+    <ChatInput
+      @newChat="newChatCallBack"
+      @postSuccess="streamCallBack"
+    />
   </section>
 </template>
 <style scoped>

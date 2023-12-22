@@ -3,7 +3,7 @@ const lget = (key) => {
   try {
     return JSON.parse(localStorage.getItem(key))
   } catch (e) {
-    console.log(e)
+    console.error(e)
   }
 }
 const baseUrl = 'https://mkpbackend-fe1c9f5599b1.herokuapp.com'

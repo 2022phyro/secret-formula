@@ -1,26 +1,25 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch, inject } from 'vue'
 import MyIcon from './MyIcon.vue'
 import { inst, baseUrl } from '@/utils.js'
-import { useRoute } from 'vue-router'
 import { useChatStateStore, useThreadStateStore } from '@/stores/state'
 import { v4 as uuidv4 } from 'uuid'
 import { storeToRefs } from 'pinia'
 import ButtonLoader from './ButtonLoader.vue'
-
+import { parseAst } from 'vite'
 const text = ref('')
 const file = ref(null)
 const imageURL = ref('')
 const upload = ref(false)
 const error = ref('')
 const fileInput = ref(null)
-const route = useRoute()
 const isSubmitting = ref(false)
 const emit = defineEmits(['newChat', 'postSuccess'])
 const { setNewChat } = useChatStateStore()
 const threadState = useThreadStateStore()
 const { setCurrentThread } = threadState
 const { currentThread } = storeToRefs(threadState)
+const isStreaming = inject('isStreaming')
 
 const upload_file = () => {
   upload.value = !upload.value
@@ -38,7 +37,9 @@ const handleFileChange = (e) => {
 const triggerFilePicker = () => {
   fileInput.value.click()
 }
-
+watch(isStreaming, (newValue) => {
+  isSubmitting.value = newValue
+})
 const handleFileDrop = (e) => {
   e.preventDefault()
   file.value = e.dataTransfer.files[0]
@@ -60,7 +61,10 @@ const handleSubmit = async () => {
   isSubmitting.value = true
   const threadId = currentThread.value
   if (!text.value) {
-    error.value = (!text.value && file.value) ? 'For this version you have to send an image with a text query' : ''
+    error.value =
+      !text.value && file.value
+        ? 'For this version you have to send an image with a text query'
+        : ''
   } else {
     const formData = new FormData()
     formData.append('query', text.value)
@@ -74,7 +78,7 @@ const handleSubmit = async () => {
         content: text.value,
         id: uuidv4(),
         chat_type: 'QUERY',
-        image: imageURL.value
+        media: [{type: 'IMAGE', url: imageURL.value }]
       }
       emit('newChat', newChatData)
       text.value = ''
@@ -87,6 +91,9 @@ const handleSubmit = async () => {
       }
       emit('postSuccess')
     } catch (err) {
+      // if (err.response && err.response.status === 400) {
+      //   parseAst;
+      // }
       console.error(err)
     }
     text.value = ''
@@ -126,7 +133,7 @@ const handleSubmit = async () => {
         </button>
       </div>
     </form>
-    <p  class="error" v-if="error">{{ error }}</p>
+    <p class="error" v-if="error">{{ error }}</p>
     <p class="warn">Once in a while we cook up some trash. Please verify all info provided</p>
   </div>
 </template>
