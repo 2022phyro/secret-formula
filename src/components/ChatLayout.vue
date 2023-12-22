@@ -81,7 +81,9 @@ const newChatCallBack = (data) => {
 const streamCallBack = () => {
   streamData()
 }
-
+const tokenLimitCallback = (errorMessage) => {
+  errorThread.value = errorMessage
+}
 const streamData = async () => {
   isStreaming.value = true
   const chat_id = newChat.value.id
@@ -139,6 +141,7 @@ const streamData = async () => {
     <ChatInput
       @newChat="newChatCallBack"
       @postSuccess="streamCallBack"
+      @tokenLimit="tokenLimitCallback"
     />
   </section>
 </template>

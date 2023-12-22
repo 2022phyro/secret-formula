@@ -6,7 +6,6 @@ import { useChatStateStore, useThreadStateStore } from '@/stores/state'
 import { v4 as uuidv4 } from 'uuid'
 import { storeToRefs } from 'pinia'
 import ButtonLoader from './ButtonLoader.vue'
-import { parseAst } from 'vite'
 const text = ref('')
 const file = ref(null)
 const imageURL = ref('')
@@ -14,7 +13,7 @@ const upload = ref(false)
 const error = ref('')
 const fileInput = ref(null)
 const isSubmitting = ref(false)
-const emit = defineEmits(['newChat', 'postSuccess'])
+const emit = defineEmits(['newChat', 'postSuccess', 'tokenLimit'])
 const { setNewChat } = useChatStateStore()
 const threadState = useThreadStateStore()
 const { setCurrentThread } = threadState
@@ -59,6 +58,7 @@ const clearImageInput = () => {
 const handleSubmit = async () => {
   let hasThread = false
   isSubmitting.value = true
+  upload.value = false
   const threadId = currentThread.value
   if (!text.value) {
     error.value =
@@ -91,9 +91,9 @@ const handleSubmit = async () => {
       }
       emit('postSuccess')
     } catch (err) {
-      // if (err.response && err.response.status === 400) {
-      //   parseAst;
-      // }
+      if (err.response && err.response.status === 400) {
+        emit('tokenLimit', "You have reached your maximum amount of tokens. Please open a new thread")
+      }
       console.error(err)
     }
     text.value = ''
