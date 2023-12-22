@@ -1,10 +1,13 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { RouterView } from 'vue-router'
-const isDarkMode = ref(localStorage.getItem('theme') === 'dark')
+import { lget } from './utils'
 
+const theme = ref(lget('theme'))
 onMounted(() => {
-  document.documentElement.setAttribute('data-scheme', isDarkMode.value ? 'dark' : 'light')
+  if (theme.value) {
+    document.documentElement.setAttribute('data-scheme', theme.value)
+  }
 })
 </script>
 <template>

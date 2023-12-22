@@ -135,7 +135,7 @@ const toggleMenu = () => {
       </div>
       <ul v-show="fabOpen" @click.stop>
         <li @click="logout"><MyIcon name="logout" />Log out</li>
-        <ThemeToggle/>
+        <li><ThemeToggle/></li>
         <!-- <li @click="deleteA">
           <MyIcon name="delete" />Delete Account
         </li> -->
@@ -300,6 +300,7 @@ const toggleMenu = () => {
   padding: 0;
   margin-left: 40px;
   margin-right: 7px;
+  height: fit-content;
 }
 
 .settings ul li {

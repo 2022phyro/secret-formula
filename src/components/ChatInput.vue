@@ -246,6 +246,9 @@ form {
   color: var(--color-text);
   overflow: auto;
 }
+input.text::placeholder {
+  color: #ccc;
+}
 button {
   border-radius: 8px;
   width: 38px;
