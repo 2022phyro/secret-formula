@@ -162,7 +162,7 @@ const toggleMenu = () => {
   right: 100vw;
   width: calc(100vw - 280px);
   height: 100%;
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--pop-up);
   backdrop-filter: blur(3px);
   align-self: stretch;
   transition: right 0.4s ease-in-out;

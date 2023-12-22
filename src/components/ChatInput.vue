@@ -60,7 +60,7 @@ const handleSubmit = async () => {
   isSubmitting.value = true
   const threadId = currentThread.value
   if (!text.value) {
-    error.value = 'Please enter a message or select an image.'
+    error.value = (!text.value && file.value) ? 'For this version you have to send an image with a text query' : ''
   } else {
     const formData = new FormData()
     formData.append('query', text.value)
@@ -103,7 +103,7 @@ const handleSubmit = async () => {
     <form @submit.prevent="handleSubmit">
       <div v-if="upload" class="file-display">
         <div class="background-text" v-if="!imageURL">
-          Drag and drop your pictures or click the icon below to upload
+          Drag and drop your pictures or click here to upload your images
         </div>
         <img :src="imageURL" @click="triggerFilePicker" @dragover.prevent @drop="handleFileDrop" />
         <label class="file-input">
@@ -126,7 +126,7 @@ const handleSubmit = async () => {
         </button>
       </div>
     </form>
-    <!-- <p v-if="error">{{ error }}</p> -->
+    <p  class="error" v-if="error">{{ error }}</p>
     <p class="warn">Once in a while we cook up some trash. Please verify all info provided</p>
   </div>
 </template>
@@ -184,13 +184,14 @@ form {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 90%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   color: #999;
+  margin-left: 10px;
   font-size: 16px;
   pointer-events: none;
 }
@@ -236,7 +237,10 @@ form {
   align-items: center;
   margin-top: 0px;
 }
-
+.error {
+  color: red;
+  font-size: 12px;
+}
 .text {
   font-family: 'IBM Plex Sans';
   outline: none;
