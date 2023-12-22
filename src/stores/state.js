@@ -5,6 +5,7 @@ const useThreadStateStore = defineStore('threadState', () => {
   const editThread = ref('')
   const newThread = ref({})
   const deleteThread = ref(false)
+  const currentThread = ref('')
 
   function setEditThread(thread) {
     editThread.value = thread
@@ -15,7 +16,10 @@ const useThreadStateStore = defineStore('threadState', () => {
   function setDeleteThread(thread) {
     deleteThread.value = thread
   }
-  return { deleteThread, editThread, newThread, setEditThread, setNewThread, setDeleteThread }
+  function setCurrentThread(thread) {
+    currentThread.value = thread
+  }
+  return { currentThread, deleteThread, editThread, newThread, setEditThread, setNewThread, setDeleteThread, setCurrentThread }
 })
 
 const useChatStateStore = defineStore('chatState', () => {

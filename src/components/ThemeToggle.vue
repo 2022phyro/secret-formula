@@ -4,7 +4,6 @@ import { ref, watch } from 'vue';
 const isDarkMode = ref(lget('theme') === 'dark');
 
 watch(isDarkMode, (newVal) => {
-  console.log("Toggle", lget('theme'))
     document.documentElement.setAttribute('data-scheme', newVal ? 'dark' : 'light')
     lset('theme', newVal ? 'dark' : 'light')
 }, { immediate: true })

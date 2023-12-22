@@ -148,6 +148,8 @@ const toggleMenu = () => {
 <style scoped>
 .loading {
   align-self: center;
+  margin: auto;
+  padding: auto;
 }
 .error {
   color: grey;
@@ -228,7 +230,7 @@ const toggleMenu = () => {
   list-style-type: none;
   display: flex;
   flex-flow: column;
-  justify-content: center;
+  /* justify-content: center; */
   margin-top: 55px;
   width: 100%;
   height: calc(100% - 200px);

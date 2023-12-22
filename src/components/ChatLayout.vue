@@ -6,12 +6,14 @@ import UserRequest from './UserRequest.vue'
 import { onMounted, ref, watch, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { inst, baseUrl, lget } from '@/utils'
-import { useChatStateStore } from '@/stores/state'
+import { useChatStateStore, useThreadStateStore } from '@/stores/state'
 import { storeToRefs } from 'pinia'
 const testData = ref([])
 const errorThread = ref('')
 let chatContainer = ref(null)
 const isLoaded = ref(false)
+
+const { setCurrentThread } = useThreadStateStore()
 
 const scrollToBottom = () => {
   if (chatContainer.value && filteredTestData().length > 0) {
@@ -33,14 +35,15 @@ const route = useRoute()
 onMounted(() => {
   const id = route.params.id
   if (!id) {
+    setCurrentThread('')
     return
   }
+  setCurrentThread(id)
   isLoaded.value = true
   inst(true)
     .get(`${baseUrl}/chat/all?thread_id=${id}`)
     .then(({ data }) => {
       testData.value = data.chats
-      console.log(data)
     })
     .catch((err) => {
       console.log(err)
@@ -51,11 +54,15 @@ onMounted(() => {
 })
 watch(route, () => {
   const id = route.params.id
+  if (!id) {
+    setCurrentThread('')
+    return
+  }
+  setCurrentThread(id)
   inst(true)
     .get(`${baseUrl}/chat/all?thread_id=${id}`)
     .then(({ data }) => {
       testData.value = data.chats
-      console.log(data)
     })
     .catch((err) => {
       console.log(err)
@@ -63,8 +70,6 @@ watch(route, () => {
 })
 const chatStore = useChatStateStore()
 const { newChat } = storeToRefs(chatStore)
-const reply = ref('')
-//const { chat_id, chat_type } = newChat.value
 const newChatCallBack = (data) => {
   testData.value.push(data)
   scrollToBottom()
@@ -75,7 +80,6 @@ const streamCallBack = () => {
 
 const streamData = async () => {
   const chat_id = newChat.value.id
-  console.log(chat_id)
   try {
     const response = await fetch(`${baseUrl}/chat/stream/${chat_id}`, {
       headers: {
@@ -93,13 +97,11 @@ const streamData = async () => {
 
     reader.read().then(function processText({ done, value }) {
       if (done) {
-        console.log('----------------\nStream complete')
         return
       }
 
       // Convert the Uint8Array to a string and add it to testData
       const text = new TextDecoder('utf-8').decode(value)
-      console.log(text)
       setTimeout(() => { }, 2000)
       const item = testData.value.find((item) => item.id == chat_id)
       if (item) {

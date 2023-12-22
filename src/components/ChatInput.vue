@@ -3,8 +3,9 @@ import { ref } from 'vue'
 import MyIcon from './MyIcon.vue'
 import { inst, baseUrl } from '@/utils.js'
 import { useRoute } from 'vue-router'
-import { useChatStateStore } from '@/stores/state'
+import { useChatStateStore, useThreadStateStore } from '@/stores/state'
 import { v4 as uuidv4} from 'uuid'
+import { storeToRefs } from 'pinia';
 
 const text = ref('')
 const file = ref(null)
@@ -17,6 +18,9 @@ const route = useRoute()
 const isSubmitting = ref(false)
 const emit = defineEmits(['newChat', 'postSuccess'])
 const { setNewChat } = useChatStateStore()
+const threadState = useThreadStateStore()
+const { setCurrentThread } = threadState
+const { currentThread } = storeToRefs(threadState)
 
 const upload_file = () => {
   upload.value = !upload.value
@@ -52,9 +56,9 @@ const clearImageInput = () => {
 }
 
 const handleSubmit = async () => {
+  let hasThread = false
   isSubmitting.value = true
-  const threadId = route.params.id
-  console.log('Thread', threadId)
+  const threadId = currentThread.value
   if (!text.value && !file.value) {
     error.value = 'Please enter a message or select an image.'
   } else {
@@ -68,6 +72,7 @@ const handleSubmit = async () => {
 
       if (threadId) {
         postBody.thread_id = threadId
+        hasThread = true
       }
       const newChatData = {
         content: text.value,
@@ -80,8 +85,10 @@ const handleSubmit = async () => {
       file.value = null
       imageURL.value = ''
       const res = await inst(true).post(`${baseUrl}/chat/`, postBody)
-      console.log(res.data)
       setNewChat(res.data.chat)
+      if (!hasThread) {
+        setCurrentThread(res.data.chat.thread_id)
+      }
       emit('postSuccess')
     } catch (err) {
       console.log(err.response.data)
