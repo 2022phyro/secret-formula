@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ButtonLoader from './ButtonLoader.vue'
 import { inst, baseUrl, lset } from '@/utils.js'
-import MyIcon from './MyIcon.vue';
+import MyIcon from './MyIcon.vue'
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   current: String
@@ -83,9 +83,21 @@ const validateForm = async () => {
       </label>
       <label for="password"
         >Password
-        <input :type="isVisible? 'text': 'password'" id="password" placeholder="Enter your password" v-model="password" />
-        <MyIcon :name="isVisible? 'visibility_off' : 'visibility'"  class="see-pwd"
-        @click="() => {isVisible = !isVisible}"/>
+        <input
+          :type="isVisible ? 'text' : 'password'"
+          id="password"
+          placeholder="Enter your password"
+          v-model="password"
+        />
+        <MyIcon
+          :name="isVisible ? 'visibility_off' : 'visibility'"
+          class="see-pwd"
+          @click="
+            () => {
+              isVisible = !isVisible
+            }
+          "
+        />
         <div class="error">{{ errorPwd }}</div>
       </label>
       <!-- <button type="submit">Login</button> -->

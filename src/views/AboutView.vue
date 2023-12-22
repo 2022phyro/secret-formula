@@ -9,21 +9,22 @@ import MyHeader from '@/components/MyHeader.vue'
     <img src="/logo.png" alt="logo" class="logo" />
     <main>
       <div>
-      <h2> Why Secret Formula?</h2>
-      <p>
-        Secret formula is a little project between two devs. We live in a world where AI is
-        increasingly shaping every aspect and fabric of our lives. Recently Google released another
-        one, Gemini AI which offered a lot of capabilities for multimodal prompting and so it got us
-        thinking, What about food, because food is one fo the hardest things to identify in terms of
-        data. Recipes have to be right, there are shocking histories, and the like. So it made
-        perfect sense to see what gemini could do for us. And so we found the Secret Formula.
-      </p>
-      <p>
-        This is an AI powered all in one cooking assistant able to generate recipes, identify and
-        explain food as well as reverse engineer recipes from images of already made food. It is a
-        work in progress and we hope to refine it and make it much more capable, much more efficient
-        and much more accurate
-      </p>
+        <h2>Why Secret Formula?</h2>
+        <p>
+          Secret formula is a little project between two devs. We live in a world where AI is
+          increasingly shaping every aspect and fabric of our lives. Recently Google released
+          another one, Gemini AI which offered a lot of capabilities for multimodal prompting and so
+          it got us thinking, What about food, because food is one fo the hardest things to identify
+          in terms of data. Recipes have to be right, there are shocking histories, and the like. So
+          it made perfect sense to see what gemini could do for us. And so we found the Secret
+          Formula.
+        </p>
+        <p>
+          This is an AI powered all in one cooking assistant able to generate recipes, identify and
+          explain food as well as reverse engineer recipes from images of already made food. It is a
+          work in progress and we hope to refine it and make it much more capable, much more
+          efficient and much more accurate
+        </p>
       </div>
       <footer>
         <ul>
@@ -33,8 +34,6 @@ import MyHeader from '@/components/MyHeader.vue'
         </ul>
       </footer>
     </main>
-
-
   </div>
 </template>
 
@@ -92,14 +91,13 @@ main > div {
 }
 
 h2 {
-  font-family: "Space Grotesk";
+  font-family: 'Space Grotesk';
   padding: 30px;
 }
 main p {
   width: 100%;
   margin-bottom: 30px;
-  padding:0 30px;
-
+  padding: 0 30px;
 }
 footer {
   flex-shrink: 0;
@@ -110,7 +108,7 @@ footer {
   background-color: #e99e3d;
   width: 100%;
   color: black;
-  font-family: "Space Grotesk";
+  font-family: 'Space Grotesk';
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
@@ -125,7 +123,7 @@ footer ul {
 }
 footer li {
   font-size: 13px;
-  font-family: "IBM Plex Sans";
+  font-family: 'IBM Plex Sans';
   margin-bottom: 10px;
 }
 @media screen and (max-width: 768px) {

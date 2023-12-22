@@ -4,15 +4,15 @@ import MyIcon from './MyIcon.vue'
 import { inst, baseUrl } from '@/utils.js'
 import { useRoute } from 'vue-router'
 import { useChatStateStore, useThreadStateStore } from '@/stores/state'
-import { v4 as uuidv4} from 'uuid'
-import { storeToRefs } from 'pinia';
+import { v4 as uuidv4 } from 'uuid'
+import { storeToRefs } from 'pinia'
+import ButtonLoader from './ButtonLoader.vue'
 
 const text = ref('')
 const file = ref(null)
 const imageURL = ref('')
 const upload = ref(false)
 const error = ref('')
-const textarea = ref('')
 const fileInput = ref(null)
 const route = useRoute()
 const isSubmitting = ref(false)
@@ -59,40 +59,35 @@ const handleSubmit = async () => {
   let hasThread = false
   isSubmitting.value = true
   const threadId = currentThread.value
-  if (!text.value && !file.value) {
+  if (!text.value) {
     error.value = 'Please enter a message or select an image.'
   } else {
     const formData = new FormData()
-    if (text.value) formData.append('text', text.value)
-    if (file.value) formData.append('image', file.value)
+    formData.append('query', text.value)
+    if (file.value !== null) formData.append('image', file.value)
     try {
-      let postBody = {
-        query: text.value
-      }
-
       if (threadId) {
-        postBody.thread_id = threadId
+        formData.append('thread_id', threadId)
         hasThread = true
       }
       const newChatData = {
         content: text.value,
         id: uuidv4(),
         chat_type: 'QUERY',
-        media: imageURL.value
+        image: imageURL.value
       }
       emit('newChat', newChatData)
       text.value = ''
       file.value = null
       imageURL.value = ''
-      const res = await inst(true).post(`${baseUrl}/chat/`, postBody)
+      const res = await inst(true).post(`${baseUrl}/chat/`, formData)
       setNewChat(res.data.chat)
       if (!hasThread) {
         setCurrentThread(res.data.chat.thread_id)
       }
       emit('postSuccess')
     } catch (err) {
-      console.log(err.response.data)
-      throw new Error(err)
+      console.error(err)
     }
     text.value = ''
     file.value = null
@@ -112,7 +107,6 @@ const handleSubmit = async () => {
         </div>
         <img :src="imageURL" @click="triggerFilePicker" @dragover.prevent @drop="handleFileDrop" />
         <label class="file-input">
-          <MyIcon name="add_photo_alternate" class="upl" @click="triggerFilePicker" />
           <input
             class="file"
             type="file"
@@ -125,16 +119,10 @@ const handleSubmit = async () => {
       </div>
       <div class="input-field">
         <MyIcon name="upload_file" class="upl" @click="upload_file" />
-        <input
-          class="text"
-          type="text"
-          v-model="text"
-          placeholder="Type a message"
-          rows="5"
-          :ref="textarea"
-        />
+        <input class="text" type="text" v-model="text" placeholder="Type a message" rows="5" />
         <button type="submit" class="form-btn" :disabled="isSubmitting">
-          <MyIcon name="publish" />
+          <ButtonLoader v-if="isSubmitting" />
+          <MyIcon name="publish" v-else />
         </button>
       </div>
     </form>
@@ -156,6 +144,7 @@ const handleSubmit = async () => {
   bottom: 0px;
   width: calc(100vw - 280px);
 }
+
 .warn {
   font-size: 12px;
   color: #e99e3d;
@@ -163,6 +152,7 @@ const handleSubmit = async () => {
   text-align: center;
   font-weight: 500;
 }
+
 form {
   display: flex;
   flex-flow: column;
@@ -173,6 +163,7 @@ form {
   /* border: 1px solid red; */
   justify-content: flex-start;
 }
+
 .file-display {
   width: 250px;
   height: 300px;
@@ -203,9 +194,11 @@ form {
   font-size: 16px;
   pointer-events: none;
 }
+
 .file-display .close {
   position: static;
 }
+
 .file-display img {
   width: calc(100% - 20px);
   height: calc(100% - 50px);
@@ -218,6 +211,7 @@ form {
   margin-bottom: 0px;
   object-fit: contain;
 }
+
 .file-input {
   /* border: 1px solid red; */
   cursor: pointer;
@@ -226,6 +220,7 @@ form {
 .file-input input {
   display: none;
 }
+
 .input-field {
   display: flex;
   flex-flow: row;
@@ -257,9 +252,11 @@ form {
   color: var(--color-text);
   overflow: auto;
 }
+
 input.text::placeholder {
   color: #ccc;
 }
+
 button {
   border-radius: 8px;
   width: 38px;
@@ -268,10 +265,12 @@ button {
   background-color: #e99e3d;
   color: var(--color-text);
 }
+
 button[disabled] {
   color: #e99e3d;
   background-color: transparent;
 }
+
 button span {
   color: inherit;
 }

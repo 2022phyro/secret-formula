@@ -1,12 +1,17 @@
 <script setup>
-import { ref, watchEffect } from 'vue'
+import { ref, watchEffect, computed } from 'vue'
 import { marked } from 'marked'
 const props = defineProps({
   content: String,
-  image: String
+  media: Array
 })
 const parsedContent = ref('')
-
+const images = computed(() => {
+  if (!props.media || props.media.length == 0) {
+    return []
+  }
+  return props.media.filter((item) => item.type === 'IMAGE')
+})
 watchEffect(() => {
   if (props.content) {
     parsedContent.value = marked(props.content)
@@ -20,7 +25,11 @@ watchEffect(() => {
     </div>
     <div class="content">
       <div v-if="props.content" class="markdown" v-html="parsedContent"></div>
-      <img v-if="props.image" img :src="props.image" alt="uploaded picture" />
+      <ul>
+        <li v-for="({ type, url }, index) in images" :key="index">
+          <img :src="url" :alt="`uploaded picture ${index}`" />
+        </li>
+      </ul>
     </div>
   </div>
 </template>

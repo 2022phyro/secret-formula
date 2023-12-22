@@ -10,6 +10,7 @@ import { useChatStateStore, useThreadStateStore } from '@/stores/state'
 import { storeToRefs } from 'pinia'
 const testData = ref([])
 const errorThread = ref('')
+const isStreaming = ref(false)
 let chatContainer = ref(null)
 const isLoaded = ref(false)
 
@@ -17,19 +18,22 @@ const { setCurrentThread } = useThreadStateStore()
 
 const scrollToBottom = () => {
   if (chatContainer.value && filteredTestData().length > 0) {
-  setTimeout(() => {
-    const specificElement = document.getElementById('myDiv')?.lastElementChild;
-    if (specificElement) {
-      specificElement.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, 0);
+    setTimeout(() => {
+      const specificElement = document.getElementById('myDiv')?.lastElementChild
+      if (specificElement) {
+        specificElement.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 0)
   }
-};
+}
 const filteredTestData = () => {
   return testData.value.filter((item) => item.content)
 }
 watch(testData, () => {
   scrollToBottom()
+})
+watch(isStreaming, (newValue) => {
+  if (newValue) scrollToBottom()
 })
 const route = useRoute()
 onMounted(() => {
@@ -44,6 +48,7 @@ onMounted(() => {
     .get(`${baseUrl}/chat/all?thread_id=${id}`)
     .then(({ data }) => {
       testData.value = data.chats
+      console.log(testData.value)
     })
     .catch((err) => {
       console.log(err)
@@ -79,6 +84,7 @@ const streamCallBack = () => {
 }
 
 const streamData = async () => {
+  isStreaming.value = true
   const chat_id = newChat.value.id
   try {
     const response = await fetch(`${baseUrl}/chat/stream/${chat_id}`, {
@@ -102,7 +108,7 @@ const streamData = async () => {
 
       // Convert the Uint8Array to a string and add it to testData
       const text = new TextDecoder('utf-8').decode(value)
-      setTimeout(() => { }, 2000)
+      setTimeout(() => {}, 2000)
       const item = testData.value.find((item) => item.id == chat_id)
       if (item) {
         item.content += text
@@ -114,12 +120,13 @@ const streamData = async () => {
   } catch (err) {
     console.log(err)
     return
+  } finally {
+    isStreaming.value = false;
   }
 }
 </script>
 <template>
   <section class="chat-layer" ref="chatContainer">
-
     <div class="empty-chat" v-if="filteredTestData().length === 0 && isLoaded === false">
       <img src="/logo.png" alt="logo" class="logo" />
       <p>Start chatting. What would you like to know?</p>
@@ -130,8 +137,7 @@ const streamData = async () => {
       </li>
       <li class="error">{{ errorThread }}</li>
     </ul>
-    <ChatInput @newChat="newChatCallBack"
-      @postSuccess="streamCallBack" />
+    <ChatInput @newChat="newChatCallBack" @postSuccess="streamCallBack" />
   </section>
 </template>
 <style scoped>
@@ -193,4 +199,5 @@ const streamData = async () => {
     padding: 0;
     top: 50px;
   }
-}</style>
+}
+</style>

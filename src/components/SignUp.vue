@@ -79,7 +79,9 @@ const validateForm = async () => {
     } catch (err) {
       const message = err.response?.data?.message
       errorSubmit.value = message?.includes('authenticate') ? 'Invalid email or password' : message
-      errorSubmit.value = errorSubmit.value.includes('email') ? 'A user with this email already exists' : errorSubmit.value
+      errorSubmit.value = errorSubmit.value.includes('email')
+        ? 'A user with this email already exists'
+        : errorSubmit.value
     } finally {
       isLoading.value = false
     }
@@ -103,9 +105,21 @@ const validateForm = async () => {
       </label>
       <label for="password"
         >Password
-        <input :type="isVisible? 'text': 'password'" id="password" placeholder="Enter your password" v-model="password" />
-        <MyIcon :name="isVisible? 'visibility_off' : 'visibility'"  class="see-pwd"
-        @click="() => {isVisible = !isVisible}"/>
+        <input
+          :type="isVisible ? 'text' : 'password'"
+          id="password"
+          placeholder="Enter your password"
+          v-model="password"
+        />
+        <MyIcon
+          :name="isVisible ? 'visibility_off' : 'visibility'"
+          class="see-pwd"
+          @click="
+            () => {
+              isVisible = !isVisible
+            }
+          "
+        />
         <div class="error">{{ errorPwd }}</div>
       </label>
       <button class="btn" type="submit" :disabled="isLoading">
@@ -130,7 +144,7 @@ section h2 {
   text-align: center;
   font-size: 24px;
   font-weight: 600;
-  color: var(--color-text)
+  color: var(--color-text);
 }
 
 form {

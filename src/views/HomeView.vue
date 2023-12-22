@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import Login from '../components/Login.vue'
 import SignUp from '../components/SignUp.vue'
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const current = ref('')
@@ -39,7 +39,9 @@ const close = () => {
         to cook up stunning recipes that can't go wrong no matter whatever you do
       </p>
       <button class="btn" role="button" @click="signup">Get Started</button>
-      <button class="btn about" role="button" @click="() => router.push('/about')">About Secret Formula</button>
+      <button class="btn about" role="button" @click="() => router.push('/about')">
+        About Secret Formula
+      </button>
       <!-- <button class="btn" role="button" @click="signup">Sign Up</button> -->
     </div>
     <div class="content">

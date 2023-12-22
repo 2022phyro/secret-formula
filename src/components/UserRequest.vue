@@ -1,13 +1,18 @@
 <script setup>
 import { lget } from '@/utils'
-import { ref, watchEffect } from 'vue'
+import { ref, watchEffect, computed } from 'vue'
 import { marked } from 'marked'
 const props = defineProps({
   content: String,
-  image: String
+  media: Array
 })
 const parsedContent = ref('')
-
+const images = computed(() => {
+  if (!props.media || props.media.length == 0) {
+    return []
+  }
+  return props.media.filter((item) => item.type === 'IMAGE')
+})
 watchEffect(() => {
   if (props.content) {
     parsedContent.value = marked(props.content)
@@ -23,7 +28,11 @@ avatar.value = lget('user')?.avatar || '/chef.png'
     </div>
     <div class="content">
       <div v-if="props.content" class="markdown" v-html="parsedContent"></div>
-      <img v-if="props.image" img :src="props.image" alt="uploaded picture" />
+      <ul>
+        <li v-for="({ type, url }, index) in images" :key="index">
+          <img :src="url" :alt="`uploaded picture ${index}`" />
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -69,7 +78,7 @@ avatar.value = lget('user')?.avatar || '/chef.png'
   border: 2px solid #e99e3d;
   border-radius: 20px;
   border-bottom: none;
-  padding: 5px 5px 0;
+  padding: 5px 5px;
 }
 .user h3 {
   font-family: 'Space Grotesk';

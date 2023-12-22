@@ -135,7 +135,7 @@ const toggleMenu = () => {
       </div>
       <ul v-show="fabOpen" @click.stop>
         <li @click="logout"><MyIcon name="logout" />Log out</li>
-        <li><ThemeToggle/></li>
+        <li><ThemeToggle /></li>
         <!-- <li @click="deleteA">
           <MyIcon name="delete" />Delete Account
         </li> -->
