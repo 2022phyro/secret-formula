@@ -3,13 +3,26 @@
 import ChatInput from './ChatInput.vue'
 import AIReply from './AIReply.vue'
 import UserRequest from './UserRequest.vue'
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import { inst, baseUrl, lget } from '@/utils';
 import { useChatStateStore } from '@/stores/state';
 import { storeToRefs } from 'pinia';
 const testData = ref([])
 const errorThread = ref('')
+let chatLayout = ref(null)
+
+watchEffect(() => {
+});
+
+function scrollToBottom() {
+  const el = document.getElementById('myDiv');
+  // if (el) {
+  //   el.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  // }
+  el.scrollIntoView({ behavior: 'smooth', block: 'end' });
+
+}
 const filteredTestData = () => {
       return testData.value.filter(item => item.content);
     }
@@ -42,11 +55,10 @@ const newChatCallBack = (data) => {
   testData.value.push(data)
   streamData()
 }
+
 const streamData = async () => {
   const chat_id = newChat.value.id;
   console.log(chat_id);
-  await new Promise(resolve => setTimeout(resolve, 2000));
-  console.log('waiting');
   try {
     const response = await fetch(`${baseUrl}/chat/stream/${chat_id}`, {
       headers: {
@@ -87,10 +99,10 @@ const streamData = async () => {
 };
 </script>
 <template>
-  <section class="chat-layer">
+  <section class="chat-layer" >
     <!--Implement infinte scrolling, also the list will have it's own component for rendering
         my messages and the ai's replies-->
-    <ul class="chat-body">
+    <ul class="chat-body" id="myDiv">
       <li v-for="item in filteredTestData()" :key="item.id" >
         <component :is="item.chat_type == 'QUERY' ? UserRequest : AIReply" v-bind="item" />
       </li>
@@ -120,7 +132,6 @@ const streamData = async () => {
   padding: 0;
   width: 100%;
   /* background: greenyellow; */
-  margin-bottom: 120px;
 }
 .chat-body li {
   list-style: none;

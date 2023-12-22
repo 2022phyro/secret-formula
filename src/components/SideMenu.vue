@@ -1,5 +1,6 @@
 <script setup>
 import MyIcon from './MyIcon.vue'
+import ButtonLoader from './ButtonLoader.vue'
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import { inst, baseUrl, lget } from '@/utils.js'
 import { useRouter, useRoute } from 'vue-router'
@@ -18,7 +19,8 @@ const allThread = ref([])
 const emit = defineEmits(['openPopup', 'changeThread'])
 const settings = ref('Settings')
 const fabOpen = ref(false)
-
+const isLoaded = ref(false)
+const errorLoading = ref('')
 settings.value = lget('user').firstName
 const closeFab = () => {
   fabOpen.value = false
@@ -29,6 +31,7 @@ onMounted(() => {
 })
 
 onMounted(() => {
+  isLoaded.value = true
   const id = route.params.id
   if (id) {
     active.value = id
@@ -37,11 +40,16 @@ onMounted(() => {
     .get(`${baseUrl}/chat/threads`)
     .then((res) => {
       allThread.value = res.data.threads
+      errorLoading.value = ''
     })
     .catch((err) => {
       if (err) {
         console.log(err.response)
+        errorLoading.value = "Something went wrong. Reload your screen to try again"
       }
+    })
+    .finally(() => {
+      isLoaded.value = false
     })
 })
 
@@ -106,9 +114,12 @@ const toggleMenu = () => {
     </div>
     <!--Implement infinte scrolling, also the list will have it's own component for rendering
         the threads and deleting them-->
-    <ul class="threads" 
+    <ul class="threads"
       @delThread="deleteThread">
+      <ButtonLoader  class="loading" v-if="isLoaded"/>
+      <p class="error" v-else-if="errorLoading" v-html="errorLoading" ></p>
       <li
+      v-else
         v-for="thread in allThread"
         :key="thread.id"
         :class="['thread', thread.id == active ? 'active' : '']"
@@ -133,7 +144,16 @@ const toggleMenu = () => {
   <div :class="['close-menu', menu ? 'show' : '']" @click="toggleMenu"></div>
 </template>
 
+
 <style scoped>
+.loading {
+  align-self: center
+}
+.error {
+  color: grey;
+  text-align: center;
+  padding: 20px;
+}
 .close-menu {
   position: fixed;
   top: 0;
@@ -207,7 +227,7 @@ const toggleMenu = () => {
   list-style-type: none;
   display: flex;
   flex-flow: column;
-  justify-content: flex-start;
+  justify-content: center;
   margin-top: 55px;
   width: 100%;
   height: calc(100% - 200px);
