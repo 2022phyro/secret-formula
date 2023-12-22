@@ -7,8 +7,7 @@ import MyHeader from '@/components/MyHeader.vue'
 import { inst, baseUrl, lset } from '@/utils.js'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router';
-import { useThreadStateStore } from '@/stores/threadState'
-
+import { useThreadStateStore } from '@/stores/state'
 const threadState = useThreadStateStore()
 const { setNewThread, setEditThread, setDeleteThread } = threadState
 const router = useRouter()
@@ -135,6 +134,7 @@ const cPopUp = () => {
   pCall.value = null
   pArgs.value = []
 }
+
 </script>
 <template>
   <MyHeader />

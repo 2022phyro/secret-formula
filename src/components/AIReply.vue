@@ -1,9 +1,16 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
+import { marked } from 'marked';
 const props = defineProps({
   content: String,
   image: String
 })
+const parsedContent = ref('')
+
+watchEffect(() => {
+  if (props.content) {
+    parsedContent.value = marked(props.content);
+  }})
 </script>
 <template>
   <div class="container">
@@ -11,9 +18,8 @@ const props = defineProps({
       <img src="/logo.png" alt="user" class="avatar" />
     </div>
     <div class="content">
-      <p v-if="props.content">
-        {{ props.content }}
-      </p>
+      <div v-if="props.content" class="markdown" v-html="parsedContent">
+      </div>
       <img v-if="props.image" img :src="props.image" alt="uploaded picture" />
     </div>
   </div>
@@ -62,6 +68,9 @@ const props = defineProps({
   border-radius: 25px;
   border-bottom: none;
   padding: 5px 5px;
+}
+ul {
+  list-style-type: none;
 }
 @media screen and (max-width: 768px) {
   .content {

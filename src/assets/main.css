@@ -129,6 +129,9 @@ h1 {
   height: 30px;
   border-radius: 50%;
 }
+.markdown {
+  white-space: pre-wrap;
+}
 @media screen and (max-width: 768px) {
   .header {
     height: 50px;

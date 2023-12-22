@@ -12,7 +12,10 @@ const router = createRouter({
     {
       path: '/cook/:id?',
       name: 'cook',
-      component: CookView
+      component: CookView,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/about',
@@ -24,5 +27,6 @@ const router = createRouter({
     }
   ]
 })
+
 
 export default router

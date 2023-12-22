@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 import MyIcon from './MyIcon.vue'
+import { inst, baseUrl } from '@/utils.js'
+import { useRoute } from 'vue-router';
+import { useChatStateStore } from '@/stores/state';
 
 const text = ref('')
 const file = ref(null)
@@ -9,6 +12,10 @@ const upload = ref(false)
 const error = ref('')
 const textarea = ref('')
 const fileInput = ref(null)
+const route = useRoute()
+const isSubmitting = ref(false)
+const emit = defineEmits(['newChat'])
+const { setNewChat } = useChatStateStore()
 
 const upload_file = () => {
   upload.value = !upload.value
@@ -43,19 +50,45 @@ const clearImageInput = () => {
   imageURL.value = ''
 }
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
+  isSubmitting.value = true
+  const threadId = route.params.id
+  console.log("Thread", threadId)
   if (!text.value && !file.value) {
     error.value = 'Please enter a message or select an image.'
   } else {
     const formData = new FormData()
     if (text.value) formData.append('text', text.value)
     if (file.value) formData.append('image', file.value)
-    console.log('FormData:', [...formData.entries()])
+    try {
+      let postBody = {
+        query: text.value,
+      };
+
+      if (threadId) {
+        postBody.thread_id = threadId;
+      }
+
+      const res = await inst(true).post(`${baseUrl}/chat/`, postBody)
+      console.log(res.data)
+      setNewChat(res.data.chat)
+      const newChatData = {
+        content: text.value,
+        id: res.data.chat.previous_chat_id,
+        chat_type:'QUERY',
+        media: imageURL.value
+      }
+      emit('newChat', newChatData)
+    } catch (err) {
+      console.log(err.response.data)
+      throw new Error(err)
+    }
     text.value = ''
     file.value = null
     imageURL.value = ''
     error.value = ''
   }
+  isSubmitting.value = false
 }
 </script>
 
@@ -89,7 +122,7 @@ const handleSubmit = () => {
           rows="5"
           :ref="textarea"
         />
-        <button type="submit" class="form-btn"><MyIcon name="publish" /></button>
+        <button type="submit" class="form-btn" :disabled="isSubmitting"><MyIcon name="publish" /></button>
       </div>
     </form>
     <!-- <p v-if="error">{{ error }}</p> -->

@@ -1,6 +1,11 @@
 import axios from 'axios'
 const lget = (key) => {
-  return JSON.parse(localStorage.getItem(key))
+  try {
+    return JSON.parse(localStorage.getItem(key))
+
+  } catch (e) {
+    console.log(e)
+  }
 }
 const baseUrl = 'https://mkpbackend-fe1c9f5599b1.herokuapp.com'
 const lset = (key, value) => {

@@ -4,7 +4,7 @@ import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import { inst, baseUrl, lget } from '@/utils.js'
 import { useRouter, useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { useThreadStateStore } from '@/stores/threadState'
+import { useThreadStateStore } from '@/stores/state'
 
 const threadState = useThreadStateStore()
 const { deleteThread, newThread, editThread } = storeToRefs(threadState)

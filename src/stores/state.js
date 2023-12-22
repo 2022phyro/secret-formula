@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 
-export const useThreadStateStore = defineStore("threadState", () => {
+const useThreadStateStore = defineStore("threadState", () => {
     const editThread = ref('')
     const newThread = ref({})
     const deleteThread = ref(false)
@@ -17,3 +17,17 @@ export const useThreadStateStore = defineStore("threadState", () => {
     }
     return { deleteThread, editThread, newThread, setEditThread, setNewThread, setDeleteThread};
 });
+
+const useChatStateStore = defineStore("chatState", () => {
+    const newChat = ref({})
+
+    function setNewChat(chat) {
+        newChat.value = chat;
+    }
+    return { newChat, setNewChat};
+});
+
+export {
+    useThreadStateStore,
+    useChatStateStore
+}

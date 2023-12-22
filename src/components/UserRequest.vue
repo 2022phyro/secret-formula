@@ -1,10 +1,17 @@
 <script setup>
 import { lget } from '@/utils';
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
+import { marked } from 'marked';
 const props = defineProps({
   content: String,
   image: String
 })
+const parsedContent = ref('')
+
+watchEffect(() => {
+  if (props.content) {
+    parsedContent.value = marked(props.content);
+  }})
 const avatar = ref('/chef.png')
 avatar.value = lget('user').avatar
 </script>
@@ -14,9 +21,8 @@ avatar.value = lget('user').avatar
       <img :src="avatar" alt="user" class="avatar" />
     </div>
     <div class="content">
-      <p v-if="props.content">
-        {{ props.content }}
-      </p>
+      <div v-if="props.content" class="markdown" v-html="parsedContent">
+      </div>
       <img v-if="props.image" img :src="props.image" alt="uploaded picture" />
     </div>
   </div>
@@ -68,6 +74,9 @@ avatar.value = lget('user').avatar
 .user h3 {
   font-family: 'Space Grotesk';
   font-weight: 500;
+}
+ul {
+  list-style-type: none;
 }
 @media screen and (max-width: 768px) {
   .content {
