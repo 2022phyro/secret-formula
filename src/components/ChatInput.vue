@@ -78,7 +78,14 @@ const handleSubmit = async () => {
         content: text.value,
         id: uuidv4(),
         chat_type: 'QUERY',
-        media: [{type: 'IMAGE', url: imageURL.value }]
+      }
+      if (imageURL.value) {
+        newChatData.media = [
+          {
+            type: 'IMAGE',
+            url: imageURL.value,
+          },
+        ]
       }
       emit('newChat', newChatData)
       text.value = ''
