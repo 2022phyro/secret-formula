@@ -10,24 +10,32 @@ import { useChatStateStore } from '@/stores/state'
 import { storeToRefs } from 'pinia'
 const testData = ref([])
 const errorThread = ref('')
-let chatLayout = ref(null)
+let chatContainer = ref(null)
+const isLoaded = ref(false)
 
-function scrollToBottom() {
-  const el = document.getElementById('myDiv')
-  // if (el) {
-  //   el.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  // }
-  el.scrollIntoView({ behavior: 'smooth', block: 'end' })
-}
+const scrollToBottom = () => {
+  if (chatContainer.value && filteredTestData().length > 0) {
+  setTimeout(() => {
+    const specificElement = document.getElementById('myDiv')?.lastElementChild;
+    if (specificElement) {
+      specificElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, 0);
+  }
+};
 const filteredTestData = () => {
   return testData.value.filter((item) => item.content)
 }
+watch(testData, () => {
+  scrollToBottom()
+})
 const route = useRoute()
 onMounted(() => {
   const id = route.params.id
   if (!id) {
     return
   }
+  isLoaded.value = true
   inst(true)
     .get(`${baseUrl}/chat/all?thread_id=${id}`)
     .then(({ data }) => {
@@ -36,6 +44,9 @@ onMounted(() => {
     })
     .catch((err) => {
       console.log(err)
+    })
+    .finally(() => {
+      isLoaded.value = false
     })
 })
 watch(route, () => {
@@ -53,9 +64,10 @@ watch(route, () => {
 const chatStore = useChatStateStore()
 const { newChat } = storeToRefs(chatStore)
 const reply = ref('')
-const { chat_id, chat_type } = newChat.value
+//const { chat_id, chat_type } = newChat.value
 const newChatCallBack = (data) => {
   testData.value.push(data)
+  scrollToBottom()
 }
 const streamCallBack = () => {
   streamData()
@@ -104,9 +116,9 @@ const streamData = async () => {
 }
 </script>
 <template>
-  <section class="chat-layer">
+  <section class="chat-layer" ref="chatContainer">
 
-    <div class="empty-chat" v-if="filteredTestData().length === 0">
+    <div class="empty-chat" v-if="filteredTestData().length === 0 && isLoaded === false">
       <img src="/logo.png" alt="logo" class="logo" />
       <p>Start chatting. What would you like to know?</p>
     </div>
@@ -114,7 +126,7 @@ const streamData = async () => {
       <li v-for="item in filteredTestData()" :key="item.id">
         <component :is="item.chat_type == 'QUERY' ? UserRequest : AIReply" v-bind="item" />
       </li>
-      <p class="error">{{ errorThread }}</p>
+      <li class="error">{{ errorThread }}</li>
     </ul>
     <ChatInput @newChat="newChatCallBack"
       @postSuccess="streamCallBack" />
@@ -134,7 +146,7 @@ const streamData = async () => {
   flex-flow: column;
   align-items: center;
   padding: 0 30px;
-  overflow: auto;
+  overflow-y: scroll;
 }
 
 .empty-chat {
