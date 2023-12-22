@@ -58,6 +58,7 @@ onMounted(() => {
 })
 watch(route, () => {
   const id = route.params.id
+  errorThread.value = ''
   if (!id) {
     setCurrentThread('')
     return
