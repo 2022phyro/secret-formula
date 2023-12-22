@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import ButtonLoader from './ButtonLoader.vue'
+import MyIcon from './MyIcon.vue'
 import { inst, baseUrl, lset } from '@/utils.js'
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
@@ -20,6 +21,7 @@ const password = ref('')
 const errorEmail = ref('')
 const errorName = ref('')
 const errorPwd = ref('')
+const isVisible = ref(false)
 const errorSubmit = ref('') // To hold the error value from the request
 const isLoading = ref(false)
 const validateForm = async () => {
@@ -77,6 +79,7 @@ const validateForm = async () => {
     } catch (err) {
       const message = err.response?.data?.message
       errorSubmit.value = message?.includes('authenticate') ? 'Invalid email or password' : message
+      errorSubmit.value = errorSubmit.value.includes('email') ? 'A user with this email already exists' : errorSubmit.value
     } finally {
       isLoading.value = false
     }
@@ -100,7 +103,9 @@ const validateForm = async () => {
       </label>
       <label for="password"
         >Password
-        <input type="password" id="password" placeholder="Enter your password" v-model="password" />
+        <input :type="isVisible? 'text': 'password'" id="password" placeholder="Enter your password" v-model="password" />
+        <MyIcon :name="isVisible? 'visibility_off' : 'visibility'"  class="see-pwd"
+        @click="() => {isVisible = !isVisible}"/>
         <div class="error">{{ errorPwd }}</div>
       </label>
       <button class="btn" type="submit" :disabled="isLoading">
@@ -126,6 +131,7 @@ section h2 {
   font-size: 24px;
   font-weight: 600;
 }
+
 form {
   display: flex;
   flex-direction: column;

@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ButtonLoader from './ButtonLoader.vue'
 import { inst, baseUrl, lset } from '@/utils.js'
+import MyIcon from './MyIcon.vue';
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   current: String
@@ -17,6 +18,7 @@ const isLoading = ref(false)
 const email = ref('')
 const password = ref('')
 const errorEmail = ref('')
+const isVisible = ref(false)
 const errorPwd = ref('')
 const errorSubmit = ref('') // To hold the error value from the request
 
@@ -81,7 +83,9 @@ const validateForm = async () => {
       </label>
       <label for="password"
         >Password
-        <input type="password" id="password" placeholder="Enter your password" v-model="password" />
+        <input :type="isVisible? 'text': 'password'" id="password" placeholder="Enter your password" v-model="password" />
+        <MyIcon :name="isVisible? 'visibility_off' : 'visibility'"  class="see-pwd"
+        @click="() => {isVisible = !isVisible}"/>
         <div class="error">{{ errorPwd }}</div>
       </label>
       <!-- <button type="submit">Login</button> -->
@@ -134,7 +138,14 @@ label {
   width: 90%;
   margin: 10px 0;
 }
-
+.see-pwd {
+  align-self: flex-end;
+  margin-top: -30px;
+  margin-right: 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  color: grey;
+}
 input {
   width: 100%;
   padding: 10px;

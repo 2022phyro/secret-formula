@@ -3,7 +3,10 @@ import MyHeader from '@/components/MyHeader.vue'
 </script>
 <template>
   <div class="about">
-    <MyHeader />
+    <header>
+      <h1>Secret Formula</h1>
+    </header>
+    <img src="/logo.png" alt="logo" class="logo" />
     <main>
       <div>
       <h2> Why Secret Formula?</h2>
@@ -36,6 +39,32 @@ import MyHeader from '@/components/MyHeader.vue'
 </template>
 
 <style scoped>
+header {
+  height: 60px;
+  width: 100%;
+  background-color: #f5cf9d;
+  backdrop-filter: blur(3px);
+  position: fixed;
+  top: 0;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 0 40px;
+}
+header h1 {
+  font-family: 'Space Grotesk';
+  color: #e99e3d;
+  font-weight: 600;
+  font-size: 20px;
+  margin: auto;
+}
+.logo {
+  z-index: 3;
+  position: absolute;
+  left: 30px;
+  top: 10px;
+}
 .about {
   display: flex;
   flex-flow: column;
@@ -53,7 +82,6 @@ main {
   align-items: flex-start;
   height: calc(100vh - 60px);
   overflow: scroll;
-  border: 1px solid red;
 }
 main > div {
   /* background: */
@@ -104,6 +132,14 @@ footer li {
   main {
     height: calc(100vh - 50px);
     top: 50px;
+  }
+  header {
+    height: 50px;
+  }
+  h1 {
+    font-size: 18px;
+    margin: 0;
+    margin-left: 20px;
   }
 }
 </style>
