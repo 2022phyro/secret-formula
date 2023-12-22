@@ -26,14 +26,14 @@ const router = createRouter({
   ]
 })
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
     // This route requires auth, check if logged in
     // if not, redirect to login page.
     if (!checkAuth()) {
       next({
         name: 'home',
         // Save the location we were at to come back later
-        query: { redirect: to.fullPath },
+        query: { redirect: to.fullPath }
       })
     } else {
       next()

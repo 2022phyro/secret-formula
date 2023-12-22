@@ -1,7 +1,7 @@
 <script setup>
-import { lget } from '@/utils';
+import { lget } from '@/utils'
 import { ref, watchEffect } from 'vue'
-import { marked } from 'marked';
+import { marked } from 'marked'
 const props = defineProps({
   content: String,
   image: String
@@ -10,8 +10,9 @@ const parsedContent = ref('')
 
 watchEffect(() => {
   if (props.content) {
-    parsedContent.value = marked(props.content);
-  }})
+    parsedContent.value = marked(props.content)
+  }
+})
 const avatar = ref('/chef.png')
 avatar.value = lget('user')?.avatar || '/chef.png'
 </script>
@@ -21,8 +22,7 @@ avatar.value = lget('user')?.avatar || '/chef.png'
       <img :src="avatar" alt="user" class="avatar" />
     </div>
     <div class="content">
-      <div v-if="props.content" class="markdown" v-html="parsedContent">
-      </div>
+      <div v-if="props.content" class="markdown" v-html="parsedContent"></div>
       <img v-if="props.image" img :src="props.image" alt="uploaded picture" />
     </div>
   </div>

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watchEffect } from 'vue'
-import { marked } from 'marked';
+import { marked } from 'marked'
 const props = defineProps({
   content: String,
   image: String
@@ -9,8 +9,9 @@ const parsedContent = ref('')
 
 watchEffect(() => {
   if (props.content) {
-    parsedContent.value = marked(props.content);
-  }})
+    parsedContent.value = marked(props.content)
+  }
+})
 </script>
 <template>
   <div class="container">
@@ -18,8 +19,7 @@ watchEffect(() => {
       <img src="/logo.png" alt="user" class="avatar" />
     </div>
     <div class="content">
-      <div v-if="props.content" class="markdown" v-html="parsedContent">
-      </div>
+      <div v-if="props.content" class="markdown" v-html="parsedContent"></div>
       <img v-if="props.image" img :src="props.image" alt="uploaded picture" />
     </div>
   </div>

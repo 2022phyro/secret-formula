@@ -45,7 +45,7 @@ onMounted(() => {
     .catch((err) => {
       if (err) {
         console.log(err.response)
-        errorLoading.value = "Something went wrong. Reload your screen to try again"
+        errorLoading.value = 'Something went wrong. Reload your screen to try again'
       }
     })
     .finally(() => {
@@ -59,7 +59,7 @@ onBeforeUnmount(() => {
 watch(editThread, () => {
   if (editThread.value) {
     const id = route.params.id
-    const thread = allThread.value.find(thread => thread.id === id)
+    const thread = allThread.value.find((thread) => thread.id === id)
     if (thread) {
       thread.title = editThread.value
     }
@@ -69,18 +69,18 @@ watch(editThread, () => {
 watch(deleteThread, () => {
   if (deleteThread.value) {
     const id = route.params.id
-    const thread = allThread.value.find(thread => thread.id === id)
+    const thread = allThread.value.find((thread) => thread.id === id)
     if (thread) {
       allThread.value.splice(allThread.value.indexOf(thread), 1)
       setDeleteThread(false)
-      router.push('/cook');
+      router.push('/cook')
     }
   }
 })
 watch(newThread, () => {
   if (newThread.value && Object.keys(newThread.value).length > 0) {
     allThread.value.unshift(newThread.value)
-    router.push(`/cook/${newThread.value.id}`);
+    router.push(`/cook/${newThread.value.id}`)
     active.value = newThread.value.id
     router.push(`/cook/${newThread.value.id}`)
     setNewThread({})
@@ -114,12 +114,11 @@ const toggleMenu = () => {
     </div>
     <!--Implement infinte scrolling, also the list will have it's own component for rendering
         the threads and deleting them-->
-    <ul class="threads"
-      @delThread="deleteThread">
-      <ButtonLoader  class="loading" v-if="isLoaded"/>
-      <p class="error" v-else-if="errorLoading" v-html="errorLoading" ></p>
+    <ul class="threads" @delThread="deleteThread">
+      <ButtonLoader class="loading" v-if="isLoaded" />
+      <p class="error" v-else-if="errorLoading" v-html="errorLoading"></p>
       <li
-      v-else
+        v-else
         v-for="thread in allThread"
         :key="thread.id"
         :class="['thread', thread.id == active ? 'active' : '']"
@@ -144,10 +143,9 @@ const toggleMenu = () => {
   <div :class="['close-menu', menu ? 'show' : '']" @click="toggleMenu"></div>
 </template>
 
-
 <style scoped>
 .loading {
-  align-self: center
+  align-self: center;
 }
 .error {
   color: grey;

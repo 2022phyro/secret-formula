@@ -2,7 +2,6 @@ import axios from 'axios'
 const lget = (key) => {
   try {
     return JSON.parse(localStorage.getItem(key))
-
   } catch (e) {
     console.log(e)
   }
@@ -24,10 +23,10 @@ const checkAuth = () => {
   if (!lget('token')) {
     return false
   }
-  const tokenExpiry = lget('token_expiry');
+  const tokenExpiry = lget('token_expiry')
   if (tokenExpiry) {
-    const tokenExpiryDate = new Date(tokenExpiry);
-    const currentDate = new Date();
+    const tokenExpiryDate = new Date(tokenExpiry)
+    const currentDate = new Date()
     if (tokenExpiryDate < currentDate) {
       return false
     }

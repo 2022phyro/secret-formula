@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 import MyIcon from './MyIcon.vue'
 import { inst, baseUrl } from '@/utils.js'
-import { useRoute } from 'vue-router';
-import { useChatStateStore } from '@/stores/state';
+import { useRoute } from 'vue-router'
+import { useChatStateStore } from '@/stores/state'
 
 const text = ref('')
 const file = ref(null)
@@ -53,7 +53,7 @@ const clearImageInput = () => {
 const handleSubmit = async () => {
   isSubmitting.value = true
   const threadId = route.params.id
-  console.log("Thread", threadId)
+  console.log('Thread', threadId)
   if (!text.value && !file.value) {
     error.value = 'Please enter a message or select an image.'
   } else {
@@ -62,11 +62,11 @@ const handleSubmit = async () => {
     if (file.value) formData.append('image', file.value)
     try {
       let postBody = {
-        query: text.value,
-      };
+        query: text.value
+      }
 
       if (threadId) {
-        postBody.thread_id = threadId;
+        postBody.thread_id = threadId
       }
 
       const res = await inst(true).post(`${baseUrl}/chat/`, postBody)
@@ -75,7 +75,7 @@ const handleSubmit = async () => {
       const newChatData = {
         content: text.value,
         id: res.data.chat.previous_chat_id,
-        chat_type:'QUERY',
+        chat_type: 'QUERY',
         media: imageURL.value
       }
       emit('newChat', newChatData)
@@ -122,7 +122,9 @@ const handleSubmit = async () => {
           rows="5"
           :ref="textarea"
         />
-        <button type="submit" class="form-btn" :disabled="isSubmitting"><MyIcon name="publish" /></button>
+        <button type="submit" class="form-btn" :disabled="isSubmitting">
+          <MyIcon name="publish" />
+        </button>
       </div>
     </form>
     <!-- <p v-if="error">{{ error }}</p> -->

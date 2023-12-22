@@ -6,7 +6,7 @@ import ChatControl from '@/components/ChatControl.vue'
 import MyHeader from '@/components/MyHeader.vue'
 import { inst, baseUrl, lset } from '@/utils.js'
 import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 import { useThreadStateStore } from '@/stores/state'
 const threadState = useThreadStateStore()
 const { setNewThread, setEditThread, setDeleteThread } = threadState
@@ -24,7 +24,7 @@ onMounted(() => {
       const userInfo = {
         firstName: res.data.first_name,
         email: res.data.email,
-        avatar: res.data.profile_picture,
+        avatar: res.data.profile_picture
       }
       lset('user', userInfo)
     })
@@ -33,7 +33,7 @@ onMounted(() => {
         console.log(err.response)
       }
     })
-  }) 
+})
 const callBackLogout = async () => {
   try {
     const res = await inst(true).post(`${baseUrl}/auth/logout`)
@@ -80,7 +80,7 @@ const patchBar = (title) => {
 const deleteBar = () => {
   setDeleteThread(true)
 }
-const newBar = ( threadData) => {
+const newBar = (threadData) => {
   setNewThread(threadData)
 }
 // const
@@ -91,7 +91,7 @@ const popUp = (name) => {
       visible.value = true
       pType.value = 'logout'
       pCall.value = callBackLogout
-      break;
+      break
     }
     case 'deleteAcc': {
       pDecision.value = true
@@ -134,12 +134,11 @@ const cPopUp = () => {
   pCall.value = null
   pArgs.value = []
 }
-
 </script>
 <template>
   <MyHeader />
   <div class="cook-view">
-    <SideMenu @openPopup="popUp"/>
+    <SideMenu @openPopup="popUp" />
     <ChatLayout />
     <ChatControl @openPopUp="popUp" />
     <ChatPopUp

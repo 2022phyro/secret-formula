@@ -44,14 +44,16 @@ const closeFormAndCallback = async () => {
       const body = {
         title: thread.value
       }
-    const res = await props.callback(body, ...props.args)
+      const res = await props.callback(body, ...props.args)
       switch (props.type) {
         case 'newThr': {
           emit('nFormSuccess', res.thread)
-          break}
+          break
+        }
         case 'editThr': {
           emit('pFormSuccess', thread.value)
-          break;}
+          break
+        }
       }
     }
   } catch (err) {

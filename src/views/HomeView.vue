@@ -2,7 +2,9 @@
 import { ref } from 'vue'
 import Login from '../components/Login.vue'
 import Signup from '../components/Signup.vue'
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const current = ref('')
 const login = () => {
   const popUp = document.querySelector('.pop-up')
@@ -37,6 +39,7 @@ const close = () => {
         to cook up stunning recipes that can't go wrong no matter whatever you do
       </p>
       <button class="btn" role="button" @click="signup">Get Started</button>
+      <button class="btn" role="button" @click="() => router.push('/about')">About Secret Formula</button>
       <!-- <button class="btn" role="button" @click="signup">Sign Up</button> -->
     </div>
     <div class="content">
