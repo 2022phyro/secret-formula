@@ -130,6 +130,7 @@ section h2 {
   text-align: center;
   font-size: 24px;
   font-weight: 600;
+  color: var(--color-text)
 }
 
 form {
@@ -161,6 +162,8 @@ input {
   padding: 10px;
   margin-top: 3 px;
   border: 1px solid #ccc;
+  background-color: var(--input);
+  color: var(--color-text);
   font-size: 16px;
   border-radius: 5px;
   font-family: 'IBM Plex Sans', 'sans-serif';

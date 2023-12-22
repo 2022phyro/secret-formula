@@ -6,6 +6,7 @@ import { inst, baseUrl, lget } from '@/utils.js'
 import { useRouter, useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useThreadStateStore } from '@/stores/state'
+import ThemeToggle from './ThemeToggle.vue'
 
 const threadState = useThreadStateStore()
 const { deleteThread, newThread, editThread } = storeToRefs(threadState)
@@ -134,6 +135,7 @@ const toggleMenu = () => {
       </div>
       <ul v-show="fabOpen" @click.stop>
         <li @click="logout"><MyIcon name="logout" />Log out</li>
+        <ThemeToggle/>
         <!-- <li @click="deleteA">
           <MyIcon name="delete" />Delete Account
         </li> -->
@@ -165,6 +167,7 @@ const toggleMenu = () => {
 }
 
 .side-menu {
+  color: black;
   position: fixed;
   height: 100%;
   top: 0px;

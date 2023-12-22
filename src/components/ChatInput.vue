@@ -136,7 +136,7 @@ const handleSubmit = async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #fff;
+  background-color: var(--color-background);
   justify-content: center;
   max-width: 700px;
   width: 100%;
@@ -169,7 +169,7 @@ form {
   border: 2px solid #e99e3d;
   border-top-right-radius: 12px;
   border-top-left-radius: 12px;
-  background-color: white;
+  background-color: var(--color-background);
   border-bottom: none;
   z-index: 0;
   display: flex;
@@ -225,7 +225,7 @@ form {
   border-radius: 12px;
   border-top-left-radius: 0;
   border-bottom-right-radius: 0;
-  background-color: white;
+  background-color: var(--input);
   padding: 0 8px;
   align-items: center;
   margin-top: 0px;
@@ -242,6 +242,8 @@ form {
   margin-right: 30px;
   flex-grow: 1;
   resize: vertical;
+  background-color: var(--input);
+  color: var(--color-text);
   overflow: auto;
 }
 button {
@@ -250,7 +252,7 @@ button {
   height: 38px;
   text-align: center;
   background-color: #e99e3d;
-  color: white;
+  color: var(--color-text);
 }
 button[disabled] {
   color: #e99e3d;

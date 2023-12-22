@@ -108,7 +108,7 @@ const danger = computed(() => {
   width: 100vw;
   top: 0;
   z-index: 10000;
-  background: rgb(255, 255, 255, 0.5);
+  background: var(--pop-up);
   backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
@@ -116,7 +116,7 @@ const danger = computed(() => {
 }
 .content {
   position: relative;
-  background: white;
+  background: var(--color-background);
   min-width: 270px;
   max-width: 340px;
   margin: 0 10px;
@@ -199,6 +199,9 @@ input {
   border-radius: 12px;
   padding: 0 35px 0 10px;
   outline: none;
+  background-color: var(--input);
+  color: var(--color-text);
+
   border: 1px solid #ccc;
 }
 input:focus {

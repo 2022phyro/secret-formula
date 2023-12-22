@@ -109,7 +109,7 @@ footer {
   padding: 30px 50px;
   background-color: #e99e3d;
   width: 100%;
-  color: white;
+  color: black;
   font-family: "Space Grotesk";
   display: flex;
   flex-flow: row wrap;

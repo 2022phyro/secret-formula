@@ -200,7 +200,8 @@ main {
 }
 
 .pop-up-content {
-  background: white;
+  background: var(--color-background);
+  color: var(--color-text);
   max-width: 400px;
   width: calc(100% - 10px);
   height: calc(100% - 30px);

@@ -79,6 +79,7 @@ const style = computed(() => {
   display: flex;
   padding: 5px;
   align-items: center;
+  color: black;
   gap: 0;
   justify-content: space-around;
   width: 130px;
@@ -93,7 +94,7 @@ const style = computed(() => {
 .chatControl ul {
   list-style-type: none;
   border: 1px solid #e99e3d;
-  background-color: white;
+  background-color: var(--color-background);
   border-top: none;
   border-radius: 10px;
   border-top-left-radius: 0;

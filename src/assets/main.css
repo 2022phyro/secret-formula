@@ -10,7 +10,7 @@
   font-family: 'IBM Plex Sans', sans-serif;
   text-decoration: none;
   text-transform: capitalize;
-  background: white;
+  background: var(--input);
   color: #e99e3d;
   cursor: pointer;
   border: 1px solid #e99e3d;
@@ -152,3 +152,6 @@ h1 {
     height: 30px;
   }
 }
+
+/* # switch  */
+/* Default */
