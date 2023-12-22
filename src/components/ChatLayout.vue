@@ -56,6 +56,8 @@ const reply = ref('')
 const { chat_id, chat_type } = newChat.value
 const newChatCallBack = (data) => {
   testData.value.push(data)
+}
+const streamCallBack = () => {
   streamData()
 }
 
@@ -86,7 +88,7 @@ const streamData = async () => {
       // Convert the Uint8Array to a string and add it to testData
       const text = new TextDecoder('utf-8').decode(value)
       console.log(text)
-      setTimeout(() => {}, 2000)
+      setTimeout(() => { }, 2000)
       const item = testData.value.find((item) => item.id == chat_id)
       if (item) {
         item.content += text
@@ -103,15 +105,19 @@ const streamData = async () => {
 </script>
 <template>
   <section class="chat-layer">
-    <!--Implement infinte scrolling, also the list will have it's own component for rendering
-        my messages and the ai's replies-->
-    <ul class="chat-body" id="myDiv">
+
+    <div class="empty-chat" v-if="filteredTestData().length === 0">
+      <img src="/logo.png" alt="logo" class="logo" />
+      <p>Start chatting. What would you like to know?</p>
+    </div>
+    <ul class="chat-body" id="myDiv" v-else>
       <li v-for="item in filteredTestData()" :key="item.id">
         <component :is="item.chat_type == 'QUERY' ? UserRequest : AIReply" v-bind="item" />
       </li>
       <p class="error">{{ errorThread }}</p>
     </ul>
-    <ChatInput @newChat="newChatCallBack" />
+    <ChatInput @newChat="newChatCallBack"
+      @postSuccess="streamCallBack" />
   </section>
 </template>
 <style scoped>
@@ -130,22 +136,42 @@ const streamData = async () => {
   padding: 0 30px;
   overflow: auto;
 }
+
+.empty-chat {
+  margin: auto;
+  padding: 30px;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.empty-chat img {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+}
+
 .chat-body {
   max-width: 700px;
   padding: 0;
   width: 100%;
   /* background: greenyellow; */
 }
+
 .chat-body li {
   list-style: none;
   padding: 20px;
   width: 100%;
   /* background: red; */
 }
+
 .error {
   color: grey;
   text-align: center;
 }
+
 @media screen and (max-width: 768px) {
   .chat-layer {
     height: calc(100vh - 50px - 100px);
@@ -153,5 +179,4 @@ const streamData = async () => {
     padding: 0;
     top: 50px;
   }
-}
-</style>
+}</style>

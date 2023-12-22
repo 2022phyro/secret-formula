@@ -4,6 +4,7 @@ import MyIcon from './MyIcon.vue'
 import { inst, baseUrl } from '@/utils.js'
 import { useRoute } from 'vue-router'
 import { useChatStateStore } from '@/stores/state'
+import { v4 as uuidv4} from 'uuid'
 
 const text = ref('')
 const file = ref(null)
@@ -14,7 +15,7 @@ const textarea = ref('')
 const fileInput = ref(null)
 const route = useRoute()
 const isSubmitting = ref(false)
-const emit = defineEmits(['newChat'])
+const emit = defineEmits(['newChat', 'postSuccess'])
 const { setNewChat } = useChatStateStore()
 
 const upload_file = () => {
@@ -68,17 +69,20 @@ const handleSubmit = async () => {
       if (threadId) {
         postBody.thread_id = threadId
       }
-
-      const res = await inst(true).post(`${baseUrl}/chat/`, postBody)
-      console.log(res.data)
-      setNewChat(res.data.chat)
       const newChatData = {
         content: text.value,
-        id: res.data.chat.previous_chat_id,
+        id: uuidv4(),
         chat_type: 'QUERY',
         media: imageURL.value
       }
       emit('newChat', newChatData)
+      text.value = ''
+      file.value = null
+      imageURL.value = ''
+      const res = await inst(true).post(`${baseUrl}/chat/`, postBody)
+      console.log(res.data)
+      setNewChat(res.data.chat)
+      emit('postSuccess')
     } catch (err) {
       console.log(err.response.data)
       throw new Error(err)
