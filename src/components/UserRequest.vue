@@ -13,7 +13,7 @@ watchEffect(() => {
     parsedContent.value = marked(props.content);
   }})
 const avatar = ref('/chef.png')
-avatar.value = lget('user').avatar
+avatar.value = lget('user')?.avatar || '/chef.png'
 </script>
 <template>
   <div class="container">

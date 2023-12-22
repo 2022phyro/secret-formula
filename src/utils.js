@@ -20,4 +20,18 @@ const inst = (auth) => {
 
   return instance
 }
-export { lget, lset, inst, baseUrl }
+const checkAuth = () => {
+  if (!lget('token')) {
+    return false
+  }
+  const tokenExpiry = lget('token_expiry');
+  if (tokenExpiry) {
+    const tokenExpiryDate = new Date(tokenExpiry);
+    const currentDate = new Date();
+    if (tokenExpiryDate < currentDate) {
+      return false
+    }
+  }
+  return true
+}
+export { lget, lset, inst, baseUrl, checkAuth }

@@ -12,9 +12,6 @@ const testData = ref([])
 const errorThread = ref('')
 let chatLayout = ref(null)
 
-watchEffect(() => {
-});
-
 function scrollToBottom() {
   const el = document.getElementById('myDiv');
   // if (el) {
@@ -29,6 +26,9 @@ const filteredTestData = () => {
 const route = useRoute()
 onMounted(() => {
   const id = route.params.id
+  if (!id) {
+    return
+  }
   inst(true).get(`${baseUrl}/chat/all?thread_id=${id}`)
   .then(({ data }) => {
     testData.value = data.chats

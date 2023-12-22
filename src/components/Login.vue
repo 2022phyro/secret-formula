@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import ButtonLoader from './ButtonLoader.vue'
 import { inst, baseUrl, lset } from '@/utils.js'
 // eslint-disable-next-line no-unused-vars
@@ -8,10 +8,10 @@ const props = defineProps({
   current: String
 })
 const emit = defineEmits(['update:current'])
-
 const toSignup = () => {
   emit('update:current', 'signup')
 }
+const route = useRoute()
 const router = useRouter()
 const isLoading = ref(false)
 const email = ref('')
@@ -46,6 +46,7 @@ const validateForm = async () => {
   }
 
   if (isValid) {
+    const redirect = route.query.redirect || '/cook/'
     isLoading.value = true
     try {
       // Simulate a request
@@ -55,7 +56,8 @@ const validateForm = async () => {
         password: password.value
       })
       lset('token', res.data.auth_info.atoken)
-      router.push('/cook/')
+      lset('token_expiry', res.data.auth_info.atoken_expiry)
+      router.push(redirect)
     } catch (err) {
       const message = err.response?.data?.message
       errorSubmit.value = message?.includes('authenticate')

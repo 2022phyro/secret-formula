@@ -27,7 +27,24 @@ const useChatStateStore = defineStore("chatState", () => {
     return { newChat, setNewChat};
 });
 
+const useAuthStateStore = defineStore("authState", () => {
+    const auth = ref(false)
+    const token = ref('')
+    const redirect = ref('')
+
+    function setAuth(auth) {
+        auth.value = auth;
+    }
+    function setToken(token) {
+        token.value = token;
+    }
+    function setRedirect(redirect) {
+        redirect.value = redirect;
+    }
+    return { auth, token, redirect, setAuth, setToken, setRedirect};
+});
 export {
     useThreadStateStore,
-    useChatStateStore
+    useChatStateStore,
+    useAuthStateStore
 }

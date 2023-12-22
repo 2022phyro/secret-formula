@@ -21,7 +21,7 @@ const settings = ref('Settings')
 const fabOpen = ref(false)
 const isLoaded = ref(false)
 const errorLoading = ref('')
-settings.value = lget('user').firstName
+settings.value = lget('user')?.firstName || 'Settings'
 const closeFab = () => {
   fabOpen.value = false
 }
