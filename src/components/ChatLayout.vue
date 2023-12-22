@@ -51,7 +51,7 @@ onMounted(() => {
       console.log(testData.value)
     })
     .catch((err) => {
-      console.log(err)
+      console.error(err)
     })
     .finally(() => {
       isLoaded.value = false
@@ -70,7 +70,7 @@ watch(route, () => {
       testData.value = data.chats
     })
     .catch((err) => {
-      console.log(err)
+      console.error(err)
     })
 })
 const chatStore = useChatStateStore()
@@ -118,7 +118,7 @@ const streamData = async () => {
       return reader.read().then(processText)
     })
   } catch (err) {
-    console.log(err)
+    console.error(err)
     return
   } finally {
     isStreaming.value = false;

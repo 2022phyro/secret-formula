@@ -45,7 +45,7 @@ onMounted(() => {
     })
     .catch((err) => {
       if (err) {
-        console.log(err.response)
+        console.error(err)
         errorLoading.value = 'Something went wrong. Reload your screen to try again'
       }
     })

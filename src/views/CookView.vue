@@ -30,18 +30,17 @@ onMounted(() => {
     })
     .catch((err) => {
       if (err) {
-        console.log(err.response)
+        console.error(err)
       }
     })
 })
 const callBackLogout = async () => {
   try {
     const res = await inst(true).post(`${baseUrl}/auth/logout`)
-    console.log(res.data)
     localStorage.clear()
     router.push('/')
   } catch (err) {
-    console.log(err.response.data)
+    console.error(err)
     throw new Error(err)
   }
 }
@@ -51,7 +50,7 @@ const callBackEditThread = async (body) => {
     const res = await inst(true).patch(`${baseUrl}/chat/thread/${id}`, body)
     return res.data
   } catch (err) {
-    console.log(err.response.data)
+    console.error(err)
     throw new Error(err)
   }
 }
@@ -60,7 +59,7 @@ const callBackNewThread = async (body) => {
     const res = await inst(true).post(`${baseUrl}/chat/thread`, body)
     return res.data
   } catch (err) {
-    console.log(err.response.data)
+    console.error(err)
     throw new Error(err)
   }
 }
@@ -70,7 +69,7 @@ const callBackDeleteThread = async () => {
     const res = await inst(true).delete(`${baseUrl}/chat/thread/${id}`)
     return res.data
   } catch (err) {
-    console.log(err.response.data)
+    console.error(err)
     throw new Error(err)
   }
 }
