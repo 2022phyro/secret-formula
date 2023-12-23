@@ -60,14 +60,11 @@ const handleSubmit = async () => {
   isSubmitting.value = true
   upload.value = false
   const threadId = currentThread.value
-  if (!text.value) {
-    error.value =
-      !text.value && file.value
-        ? 'For this version you have to send an image with a text query'
-        : ''
+  if (!text.value && !file.value) {
+    error.value = ''
   } else {
     const formData = new FormData()
-    formData.append('query', text.value)
+    if (text.value !== '') formData.append('query', text.value)
     if (file.value !== null) formData.append('image', file.value)
     try {
       if (threadId) {
@@ -100,6 +97,8 @@ const handleSubmit = async () => {
     } catch (err) {
       if (err.response && err.response.status === 400) {
         emit('tokenLimit', "You have reached your maximum amount of tokens. Please open a new thread")
+      } else {
+        emit('tokenLimit', "Something went wrong. Please try again later")
       }
       console.error(err)
     }
