@@ -95,7 +95,8 @@ const danger = computed(() => {
       <form v-else @submit.prevent="closeFormAndCallback">
         <input name="newThread" v-model="thread" />
         <button type="submit" class="form-btn">
-          <MyIcon name="send" />
+        <ButtonLoader v-if="isLoading" />
+          <MyIcon name="send" v-else/>
         </button>
       </form>
     </div>

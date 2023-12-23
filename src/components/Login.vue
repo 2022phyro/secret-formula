@@ -106,7 +106,6 @@ const validateForm = async () => {
         <span v-else>Login</span>
       </button>
       <div class="error">{{ errorSubmit }}</div>
-      <p>Forgot password? <a>Click here</a></p>
       <p>Don't have an account? <span class="a" @click="toSignup">Click here</span></p>
     </form>
   </section>
