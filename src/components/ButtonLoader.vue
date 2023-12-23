@@ -8,7 +8,7 @@
   border-radius: 50%;
   display: inline-block;
   border-top: 4px solid green;
-  margin-top: -3px;
+  /* margin-top: -3px; */
   border-right: 4px solid transparent;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
