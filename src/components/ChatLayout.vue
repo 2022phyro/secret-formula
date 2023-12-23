@@ -32,6 +32,14 @@ const filteredTestData = () => {
 watch(testData, () => {
   scrollToBottom()
 })
+watch(
+  () => testData.value[testData.value.length - 1]?.content,
+  (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+      scrollToBottom()
+    }
+  }
+);
 watch(isStreaming, (newValue) => {
   if (!newValue) scrollToBottom()
 })
@@ -110,13 +118,13 @@ const streamData = async () => {
 
       // Convert the Uint8Array to a string and add it to testData
       const text = new TextDecoder('utf-8').decode(value)
-      setTimeout(() => {}, 2000)
-      const item = testData.value.find((item) => item.id == chat_id)
-      if (item) {
-        item.content += text
-      } else {
-        testData.value.push({ id: chat_id, content: text, chat_type: 'RESPONSE', image: '' })
-      }
+        const item = testData.value.find((item) => item.id == chat_id)
+        if (item) {
+          item.content += text
+        } else {
+          testData.value.push({ id: chat_id, content: text, chat_type: 'RESPONSE', media: [] })
+        }
+
       return reader.read().then(processText)
     })
   } catch (err) {
@@ -126,6 +134,7 @@ const streamData = async () => {
     isStreaming.value = false
   }
 }
+
 </script>
 <template>
   <section class="chat-layer" ref="chatContainer">
@@ -139,11 +148,7 @@ const streamData = async () => {
       </li>
       <li class="error">{{ errorThread }}</li>
     </ul>
-    <ChatInput
-      @newChat="newChatCallBack"
-      @postSuccess="streamCallBack"
-      @tokenLimit="tokenLimitCallback"
-    />
+    <ChatInput @newChat="newChatCallBack" @postSuccess="streamCallBack" @tokenLimit="tokenLimitCallback" />
   </section>
 </template>
 <style scoped>
